@@ -48,3 +48,17 @@ def max_simple_divider(number)
   return max_divider
 
 end
+
+
+def multiply_digits_except_divisible_on_5(number)
+  mult = 1
+  
+  while number != 0 do
+    mult *= number % 10
+    number /=  10
+  end
+
+  return mult
+
+end
+
