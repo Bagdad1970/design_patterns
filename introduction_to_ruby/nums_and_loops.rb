@@ -21,7 +21,7 @@ def is_simple(num)
 end
 
 
-def max_simple_divider(number)
+def max_simple_divider(number)  # метод 1
   number = number.abs
 
   if number == 0 then
@@ -50,7 +50,8 @@ def max_simple_divider(number)
 end
 
 
-def multiply_digits_except_divisible_on_5(number)
+def multiply_digits_except_divisible_on_5(num)  # метод 2
+  num = num.abs
   mult = 1
   
   while number != 0 do
@@ -62,3 +63,42 @@ def multiply_digits_except_divisible_on_5(number)
 
 end
 
+
+def multiply_digits(num)
+  num = num.abs
+
+  mult = 1
+  while num != 0 do
+    mult *= num % 10
+    num /= 10
+  end
+
+  return mult
+
+end
+
+def max_notsimple_odd_divider(num)
+  num = num.abs
+  max_divider = 1
+  
+  for i in 2..(num/2+1) do
+    if num % i == 0 then
+      if i % 2 != 0 && is_simple(i) == false and i > max_divider then
+        max_divider = i
+      end
+    end
+
+  end
+
+  return max_divider
+
+end
+
+
+def find_gcd(num)  # метод 3
+  max_divider = max_notsimple_odd_divider(num)
+  mult_digits = multiply_digits(num)
+  
+  return max_divider.gcd(mult_digits)
+
+end
