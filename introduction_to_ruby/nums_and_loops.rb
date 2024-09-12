@@ -1,15 +1,14 @@
 def is_simple(num)
   num = num.abs
 
-  if num == 0 || num == 1 then
+  if num == 0 || num == 1 
     return false
-  elsif num == 2 || num == 3 then
+  elsif num == 2 || num == 3 
     return true
   end
 
-
   for i in 2..(num/2+1) do
-    if num % i == 0 then
+    if num % i == 0
       return false
     end
 
@@ -24,21 +23,21 @@ end
 def max_simple_divider(number)  # метод 1
   number = number.abs
 
-  if number == 0 || number == 1 then
-    return 
-  elsif number == 2 || number == 3 then
+  if number == 0 || number == 1
+    return nil
+  elsif number == 2 || number == 3 
     return number
   end
 
-  if is_simple(number) == true then
+  if is_simple(number) == true
     return number
   end
 
   max_divider = 1
 
   for potential_div in 2..(number/2+1) do
-    if number % potential_div == 0 then
-      if is_simple(potential_div) == true  && potential_div > max_divider then
+    if number % potential_div == 0
+      if is_simple(potential_div) == true  && potential_div > max_divider
         max_divider = potential_div
       end
     end
@@ -82,8 +81,8 @@ def max_notsimple_odd_divider(num)
   max_divider = 1
   
   for i in 2..(num/2+1) do
-    if num % i == 0 then
-      if i % 2 != 0 && is_simple(i) == false and i > max_divider then
+    if num % i == 0
+      if i % 2 != 0 && is_simple(i) == false and i > max_divider
         max_divider = i
       end
     end
@@ -94,11 +93,34 @@ def max_notsimple_odd_divider(num)
 
 end
 
+def GCD(a, b)
+  if a == 1 || b == 1
+    return 1
+  end
+
+  if a % b == 0
+    return b
+  elsif b % a == 0
+    return a
+  end
+
+  while a != b
+    if a > b
+      a -= b
+    else
+      b -= a
+    end
+  end
+
+  return a
+
+end
+
 
 def find_gcd(num)  # метод 3
   max_divider = max_notsimple_odd_divider(num)
   mult_digits = multiply_digits(num)
   
-  return max_divider.gcd(mult_digits)
+  return GCD(max_divider, mult_digits)
 
 end
