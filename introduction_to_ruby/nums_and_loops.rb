@@ -1,9 +1,9 @@
 def is_simple(num)
   num = num.abs
 
-  if num == 0 then
+  if num == 0 || num == 1 then
     return false
-  elsif num == 1 || num == 2 || num == 3 then
+  elsif num == 2 || num == 3 then
     return true
   end
 
@@ -24,9 +24,9 @@ end
 def max_simple_divider(number)  # метод 1
   number = number.abs
 
-  if number == 0 then
+  if number == 0 || number == 1 then
     return 
-  elsif number == 1 || number == 2 || number == 3 then
+  elsif number == 2 || number == 3 then
     return number
   end
 

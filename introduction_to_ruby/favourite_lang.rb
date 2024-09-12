@@ -1,6 +1,4 @@
 def favourite_lang
-  puts "Hello, World!"
-
   username = ARGV[0]
   puts "Привет, #{username}"
 
