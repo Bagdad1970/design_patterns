@@ -1,5 +1,6 @@
 def is_simple(num)
-  num = num.abs
+  if num < 0
+    return nil
 
   if num == 0 || num == 1 
     return false
@@ -16,12 +17,12 @@ def is_simple(num)
 
   return true
 
-
 end
 
 
 def max_simple_divider(number)  # метод 1
-  number = number.abs
+  if number < 0
+    return nil
 
   if number == 0 || number == 1
     return nil
