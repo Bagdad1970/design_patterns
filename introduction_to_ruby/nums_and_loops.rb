@@ -1,4 +1,4 @@
-def is_simple(num)
+def is_simple?(num)
   if num < 0
     return nil
 
@@ -30,7 +30,7 @@ def max_simple_divider(number)  # метод 1
     return number
   end
 
-  if is_simple(number) == true
+  if is_simple?(number) == true
     return number
   end
 
@@ -38,7 +38,7 @@ def max_simple_divider(number)  # метод 1
 
   for potential_div in 2..(number/2+1) do
     if number % potential_div == 0
-      if is_simple(potential_div) == true  && potential_div > max_divider
+      if is_simple?(potential_div) == true  && potential_div > max_divider
         max_divider = potential_div
       end
     end
@@ -83,7 +83,7 @@ def max_notsimple_odd_divider(num)
   
   for i in 2..(num/2+1) do
     if num % i == 0
-      if i % 2 != 0 && is_simple(i) == false and i > max_divider
+      if i % 2 != 0 && is_simple?(i) == false and i > max_divider
         max_divider = i
       end
     end

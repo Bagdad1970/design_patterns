@@ -2,7 +2,7 @@ require './array_methods.rb'
 
 def read_file(filepath)
   if File.exist? (filepath)
-    file = File.new(filepath, 'r:UTF-8')
+    file = File.new(filepath, 'r')
     str_array = file.read
     file.close
   else
