@@ -12,6 +12,10 @@ class Student
 
   end
 
+  def to_s
+    "#{@id} ФИО: #{@surname} #{@firstname} #{@lastname} Данные для связи: #{@phone_number} #{@telegram} #{@email} #{git}"
+  end
+
   def surname
     @surname
   end
