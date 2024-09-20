@@ -130,6 +130,35 @@ class Student
 
   end
 
+
+  def get_contact
+    contact_info = nil
+    if !@phone_number.nil?
+      contact_info = "Телефон: " + @phone_number
+    elsif !@email.nil?
+      contact_info = "Электронная почта: " + @email
+    elsif !@telegram.nil?
+      contact_info = "Telegram: " + @telegram
+    end
+
+    return contact_info
+
+  end
+
+  def getInfo
+    "#{@surname} #{@firstname} #{@git} #{self.get_contact}"
+
+  end
+
+  def get_name
+    "#{@surname} #{@firstname}"
+
+  end
+
+  def get_git_and_contact
+    "#{@git} #{self.get_contact}"
+  end
+
   def to_s
     "#{@id} #{@surname} #{@firstname} #{@lastname}.\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{git}\n\n"
   end
