@@ -145,22 +145,21 @@ class Student
 
   end
 
-  def getInfo
-    "#{@surname} #{@firstname} #{@git} #{self.get_contact}"
-
-  end
-
   def get_name
-    "#{@surname} #{@firstname}"
-
+    "#{@surname} #{@firstname[0].upcase}.#{@lastname[0].upcase}." 
   end
 
   def get_git_and_contact
     "#{@git} #{self.get_contact}"
   end
 
+  def getInfo
+    "#{self.get_name} #{self.get_git_and_contact}"
+
+  end
+
   def to_s
-    "#{@id} #{@surname} #{@firstname} #{@lastname}.\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{git}\n\n"
+    "#{@id} #{@surname} #{@firstname} #{@lastname}\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{git}\n\n"
   end
 
 end
