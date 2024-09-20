@@ -96,6 +96,24 @@ class Student
 
   end
 
+  def has_git?
+    if self.git.nil?
+      return false
+    end
+
+    return true
+
+  end
+
+  def has_contact?
+    if self.phone_number.nil? and self.email.nil? and self.telegram.nil?
+      return false
+    end
+
+    return true
+
+  end
+
   def to_s
     "#{@id} #{@surname} #{@firstname} #{@lastname}.\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{git}\n\n"
   end
