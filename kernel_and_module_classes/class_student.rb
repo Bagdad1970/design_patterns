@@ -1,7 +1,7 @@
 class Student
  
   attr_accessor :id, :telegram
-  attr_reader :surname, :firstname, :lastname, :telegram, :email, :git, :phone_number 
+  attr_reader :surname, :firstname, :lastname, :telegram, :email, :git, :phone_number
 
   def initialize(surname, firstname, lastname, id: nil, phone_number: nil, telegram: nil, email: nil, git: nil)
     self.surname = surname
@@ -67,6 +67,7 @@ class Student
     end
   end
 
+  private :surname=, :firstname=, :lastname=, :phone_number=, :email=, :git=
 
   def Student.is_phone_number_valid? (checked_phone_number)
     phone_number_reg = /^\+?\d{1,3}\s?\(?\s*\d{3}\s*\)?\s?\d{3}\-{0,1}\d{2}\-{0,1}\d{2}\s*$/
@@ -111,6 +112,21 @@ class Student
     end
 
     return true
+
+  end
+
+  def set_contacts(hash_contacts)
+    if !(hash_contacts[:phone_number].nil?)
+      @phone_number = hash_contacts[:phone_number]
+    end
+
+    if !(hash_contacts[:email].nil?)
+      @phone_number = hash_contacts[:email]
+    end
+
+    if !(hash_contacts[:telegram].nil?)
+      @phone_number = hash_contacts[:telegram]
+    end
 
   end
 
