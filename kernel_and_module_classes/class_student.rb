@@ -81,6 +81,8 @@ class Student
       
         key, value = param.strip.split(':').map(&:strip)
 
+        p key, value
+
         case key.downcase
           when 'surname'
             student_init[:surname] = value
@@ -118,6 +120,23 @@ class Student
 
   end
 
+  def Student.read_from_txt(filepath)
+    students_array = Array.new()
+
+    File.open(filepath, 'r') do |file|
+      file.each_line do |line|
+        line.chomp!
+
+        if !(line.empty?)
+          students_array.append(Student.create_from_string(line))
+        end
+      end
+
+    end
+
+    return students_array
+
+  end
 
   def Student.is_phone_number_valid? (checked_phone_number)
     phone_number_reg = /^\+?\d{1,3}\s?\(?\s*\d{3}\s*\)?\s?\d{3}\-{0,1}\d{2}\-{0,1}\d{2}\s*$/
@@ -141,7 +160,7 @@ class Student
   end
 
   def Student.is_git_valid? (checked_git)
-    git_reg = /github.com\/[A-Za-z0-9._-]+\/?$/
+    git_reg = /^github\.com\/[A-Za-z0-9._-]+\/?$/
 
     return checked_git =~ git_reg
 
