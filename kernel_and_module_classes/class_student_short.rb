@@ -1,5 +1,3 @@
-require "./class_student.rb"
-
 class Student_short
 
   attr_reader :id, :name, :git, :contact
@@ -25,13 +23,12 @@ class Student_short
 
   end
 
-  def Student_short.parse_string_params(str_params)
+  def self.parse_string_params(str_params)
     return str_params.split
   end
 
   def to_s
     "#{@id} #{@name} #{@git} #{@contact}"
-
   end
 
 end
