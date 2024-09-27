@@ -81,8 +81,6 @@ class Student
       
         key, value = param.strip.split(':').map(&:strip)
 
-        p key, value
-
         case key.downcase
           when 'surname'
             student_init[:surname] = value
@@ -121,22 +119,34 @@ class Student
   end
 
   def Student.read_from_txt(filepath)
-    students_array = Array.new()
+    student_array = Array.new()
 
     File.open(filepath, 'r') do |file|
       file.each_line do |line|
         line.chomp!
 
         if !(line.empty?)
-          students_array.append(Student.create_from_string(line))
+          student_array.append(Student.create_from_string(line))
         end
       end
 
     end
 
-    return students_array
+    return student_array
 
   end
+
+  def Student.write_to_txt(filepath, student_array)
+    file = File.new(filepath, 'w')
+
+    student_array.each do |student|
+      file.puts(student.to_str)
+    end
+
+    file.close
+
+  end
+
 
   def Student.is_phone_number_valid? (checked_phone_number)
     phone_number_reg = /^\+?\d{1,3}\s?\(?\s*\d{3}\s*\)?\s?\d{3}\-{0,1}\d{2}\-{0,1}\d{2}\s*$/
@@ -146,7 +156,7 @@ class Student
   end
 
   def Student.is_email_valid? (checked_email)
-    email_reg = /^[A-Za-z0-9._-]+\@[A-Za-z0-9._-]?mail\.[A-Za-z0-9._-]+/
+    email_reg = /^[A-Za-z0-9._-]+\@[A-Za-z0-9._-]{0,5}mail\.[A-Za-z0-9._-]+/
 
     return checked_email =~ email_reg
 
@@ -232,8 +242,9 @@ class Student
     "#{@id} #{@surname} #{@firstname} #{@lastname}\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{git}\n\n"
   end
 
+  
   def to_str
-    "#{@id} #{@surname} #{@firstname} #{@lastname}\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{git}\n\n"
+    "id: #{@id}; surname: #{@surname}; firstname: #{@firstname}; lastname: #{@lastname}; phone_number: #{@phone_number}; telegram: #{@telegram}; email: #{@email}; git: #{git}"
   end
 
 end
