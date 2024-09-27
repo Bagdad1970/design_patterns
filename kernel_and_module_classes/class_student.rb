@@ -46,7 +46,7 @@ class Student
     if phone_number.nil? or Student.is_phone_number_valid? (phone_number)
       @phone_number = phone_number
     else
-      raise ArgumentError.new("Неверный номер телефона для студента: #{@id} #{@surname} #{@lastname} #{@firstname}")
+      raise ArgumentError.new("Неверный номер телефона для студента: #{@id} #{@surname} #{@firstname} #{@lastname}")
     end
 
   end
@@ -55,7 +55,7 @@ class Student
     if email.nil? or Student.is_email_valid? (email)
       @email = email 
     else
-      raise ArgumentError.new("Неверный адрес электронной почты: #{@id} #{@surname} #{@lastname} #{@firstname}")
+      raise ArgumentError.new("Неверный адрес электронной почты: #{@id} #{@surname} #{@firstname} #{@lastname}")
     end
   end
 
@@ -63,13 +63,13 @@ class Student
     if git.nil? or Student.is_git_valid? (git)
       @git = git
     else
-      raise ArgumentError.new("Неверный git: #{@id} #{@surname} #{@lastname} #{@firstname}")
+      raise ArgumentError.new("Неверный git: #{@id} #{@surname} #{@firstname} #{@lastname}")
     end
   end
 
   private :surname=, :firstname=, :lastname=, :phone_number=, :email=, :git=
 
-  def Student.read_from_string(str)
+  def Student.params_from_string(str)
     if str.empty? || str.nil?
       raise ArgumentError.new("Строка параметров пустая")
     end
@@ -82,7 +82,7 @@ class Student
         key, value = param.strip.split(':').map(&:strip)
 
         case key.downcase
-          when 'surname' then 
+          when 'surname'
             student_init[:surname] = value
           when 'firstname'
           student_init[:firstname] = value
@@ -103,12 +103,18 @@ class Student
 
       end
 
-      self.new(**student_init)
+      return student_init
 
     rescue => error
       puts error.message
 
     end
+
+  end
+
+  def Student.create_from_string(str)
+    parsed_string = Student.params_from_string(str)
+    self.new(**parsed_string)
 
   end
 
@@ -121,7 +127,7 @@ class Student
   end
 
   def Student.is_email_valid? (checked_email)
-    email_reg = /^[A-Za-z0-9._-]+\@[A-Za-z0-9._-]+mail\.[A-Za-z0-9._-]+/
+    email_reg = /^[A-Za-z0-9._-]+\@[A-Za-z0-9._-]?mail\.[A-Za-z0-9._-]+/
 
     return checked_email =~ email_reg
 
@@ -135,7 +141,7 @@ class Student
   end
 
   def Student.is_git_valid? (checked_git)
-    git_reg = /^(https|http):\/\/github.com\/[A-Za-z0-9._-]+\/?$/
+    git_reg = /github.com\/[A-Za-z0-9._-]+\/?$/
 
     return checked_git =~ git_reg
 
@@ -212,3 +218,46 @@ class Student
   end
 
 end
+
+
+class Student_Short < Student
+
+  attr_reader :name, :id, :git, :contact
+
+  private :set_contacts
+
+  def initialize(*args)
+    if args.length == 1  # initialize for type Student parametr
+      student_obj = args[0]
+
+      super(surname: student_obj.surname, firstname: student_obj.firstname, lastname: student_obj.lastname,
+            id: student_obj.id, phone_number: student_obj.phone_number,
+            telegram: student_obj.telegram, email: student_obj.email, git: student_obj.git
+           )
+
+      @id = student_obj.id
+      @name = "#{student_obj.surname} #{student_obj.firstname[0].upcase}.#{student_obj.lastname[0].upcase}."
+      @git = student_obj.git
+      @contact = student_obj.get_contact
+
+    elsif args.length == 2  # initialize for id and String parametrs
+      id = args[0].to_i
+      student_string = args[1]
+
+      student_params = Student.params_from_string(student_string)
+
+      super(surname: student_params[:surname], firstname: student_params[:firstname], lastname: student_params[:lastname], id: id, phone_number: student_params[:phone_number], telegram: student_params[:telegram], email: student_params[:email], git: student_params[:git])
+
+      @name = "#{@surname} #{firstname[0].upcase}.#{lastname[0].upcase}."  
+      @contact = get_contact
+      
+    end
+
+  end
+
+  def to_s
+    "#{@id} #{@name} #{@git} #{@contact}"
+  end
+
+end
+
