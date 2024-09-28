@@ -5,7 +5,7 @@ def main
 
     student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', id: 1, phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
-    p student1.to_str
+    puts student1.to_str
     
     student_short = Student_Short.new(student1)
 
@@ -16,11 +16,11 @@ def main
 
     puts student_short2
 
-    Student.write_to_txt("./student_write.txt", student_array)
-
     student_array = Student.read_from_txt("./student_write.txt")
 
     puts student_array
+
+    Student.write_to_txt("./student_write.txt", student_array)
     
 
   rescue => err

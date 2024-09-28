@@ -278,7 +278,7 @@ class Student_Short < Student
 
       super(surname: student_params[:surname], firstname: student_params[:firstname], lastname: student_params[:lastname], id: id, phone_number: student_params[:phone_number], telegram: student_params[:telegram], email: student_params[:email], git: student_params[:git])
 
-      @name = "#{@surname} #{firstname[0].upcase}.#{lastname[0].upcase}."  
+      @name = "#{@surname} #{@firstname[0].upcase}.#{@lastname[0].upcase}."  
       @contact = get_contact
       
     end
