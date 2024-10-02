@@ -1,25 +1,38 @@
-class Student_short
+class Student_Short
 
   attr_reader :id, :name, :git, :contact
+  attr_accessor :id, :name, :git, :contact
   
-  def initialize(*args)
-    if args.length == 1
-      student_info = args[0].getInfo.split
+  def initialize(id:, name:, git:, contact:)
+    self.id = id
+    self.name = name
+    self.git = git
+    self.contact = contact
+  end
 
-      @id = args[0].id
-      @name = student_info[0] + " " + student_info[1]
-      @git = student_info[2]
-      @contact = student_info[4..-1].join('')
+  def Student_Short.create_from_string(id, data)
+    student_short_init = {}
 
-    elsif args.length == 2
-      @id = args[0]
+    params = Student_Short.parse_string_params(data)
 
-      params = Student_short.parse_string_params(args[1])
-      @name = params[0] + ' ' + params[1]
-      @git = params[2]
-      @contact = params[3]
+    student_short_init[:id] = id
+    student_short_init[:name] = params[0] + ' ' + params[1]
+    student_short_init[:git] = params[2]
+    student_short_init[:contact] = params[3..].join('')
+
+    self.new(**student_short_init)
       
-    end
+  end
+
+  def Student_Short.create_from_student(student_obj)
+    student_short_init = {}
+
+    student_short_init[:id] = student_obj.id
+    student_short_init[:name] = student_obj.get_name
+    student_short_init[:git] = student_obj.git
+    student_short_init[:contact] = student_obj.get_contact
+
+    self.new(**student_short_init)
 
   end
 
@@ -32,3 +45,4 @@ class Student_short
   end
 
 end
+
