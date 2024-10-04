@@ -1,42 +1,112 @@
-class Student
- 
-  attr_accessor :id
-  attr_reader :surname, :firstname, :lastname, :telegram, :email, :git, :phone_number
+class Person
 
-  def initialize(surname:, firstname:, lastname:, id: nil, phone_number: nil, telegram: nil, email: nil, git: nil)
+  attr_accessor :id
+  attr_reader :surname, :firstname, :lastname, :git
+
+  def initialize(surname:, firstname:, lastname:, id:, git: )
     self.surname = surname
     self.firstname = firstname
     self.lastname = lastname
     self.id = id
     self.git = git
-    set_contacts(phone_number: phone_number, email: email, telegram: telegram)
-
   end
 
   def surname=(surname)
-    if Student.is_name_valid? (surname)
+    if Person.is_name_valid? (surname)
       @surname = surname
     else
       raise ArgumentError.new("Неверная фамилия студента: #{@id}")
     end
-
   end
 
   def firstname=(firstname)
-    if Student.is_name_valid? (surname)
+    if Person.is_name_valid? (firstname)
       @firstname = firstname
     else
-      raise ArgumentError.new("Неверное имя студента: #{@id} #{@surname}")
+      raise ArgumentError.new("Неверная фамилия студента: #{@id}")
     end
-
   end
 
   def lastname=(lastname)
-    if lastname.empty? or Student.is_name_valid? (lastname)
+    if Person.is_name_valid? (lastname)
       @lastname = lastname
     else
-      raise ArgumentError.new("Неверное отчество студента: #{@id} #{@surname} #{@firstname}")
+      raise ArgumentError.new("Неверная фамилия студента: #{@id}")
     end
+  end
+
+  def git=(git)
+    if git.nil? or Person.is_git_valid? (git)
+      @git = git
+    else
+      raise ArgumentError.new("Неверный git: #{@id} #{@surname} #{@firstname} #{@lastname}")
+    end
+  end
+
+  private :surname=, :firstname=, :lastname=, :git=
+
+  def Person.is_phone_number_valid? (checked_phone_number)
+    phone_number_reg = /^\+?\d{1,3}\s?\(?\s*\d{3}\s*\)?\s?\d{3}\-{0,1}\d{2}\-{0,1}\d{2}\s*$/
+  
+    return checked_phone_number =~ phone_number_reg
+  end
+
+  def Person.is_email_valid? (checked_email)
+    email_reg = /^[A-Za-z0-9._-]+\@[A-Za-z0-9._-]{0,5}mail\.[A-Za-z0-9._-]+/
+
+    return checked_email =~ email_reg
+  end
+
+  def Person.is_name_valid? (checked_name)
+    name_reg = /^[A-Za-zА-Яа-я]+$/
+
+    return checked_name =~ name_reg
+  end
+
+  def Person.is_git_valid? (checked_git)
+    git_reg = /^github\.com\/[A-Za-z0-9._-]+\/?$/
+
+    return checked_git =~ git_reg
+  end
+
+  def Person.is_telegram_valid? (checked_telegram)
+    telegram_reg = /^@[A-Za-z0-9_]{5,20}$/
+
+    return checked_telegram =~ telegram_reg
+  end
+
+  def has_git?
+    if self.git.nil?
+      return false
+    end
+
+    return true
+  end
+
+  def get_name
+    "#{@surname} #{@firstname[0].upcase}.#{@lastname[0].upcase}." 
+  end
+
+  def get_git
+    "#{@git}"
+  end
+
+  def get_id
+    "#{@id}"
+  end
+
+  public :has_git?, :get_name, :get_git, :get_id
+
+end
+
+
+class Student < Person
+ 
+  attr_reader :telegram, :email, :phone_number
+
+  def initialize(surname:, firstname:, lastname:, id: nil, phone_number: nil, telegram: nil, email: nil, git: nil)
+    super(surname: surname, firstname: firstname, lastname: lastname, id: id, git: git)
+    set_contacts(phone_number: phone_number, email: email, telegram: telegram)
 
   end
 
@@ -58,15 +128,6 @@ class Student
 
   end
 
-  def git=(git)
-    if git.nil? or Student.is_git_valid? (git)
-      @git = git
-    else
-      raise ArgumentError.new("Неверный git: #{@id} #{@surname} #{@firstname} #{@lastname}")
-    end
-
-  end
-
   def telegram=(telegram)
     if telegram.nil? or Student.is_telegram_valid? (telegram)
       @telegram = telegram
@@ -75,7 +136,7 @@ class Student
     end
   end
 
-  private :surname=, :firstname=, :lastname=, :phone_number=, :email=, :git=, :telegram=
+  private :phone_number=, :email=, :telegram=
 
   def Student.params_from_string(str)
     if str.empty? || str.nil?
@@ -150,53 +211,12 @@ class Student
     file.close
   end
 
-
-  def Student.is_phone_number_valid? (checked_phone_number)
-    phone_number_reg = /^\+?\d{1,3}\s?\(?\s*\d{3}\s*\)?\s?\d{3}\-{0,1}\d{2}\-{0,1}\d{2}\s*$/
-  
-    return checked_phone_number =~ phone_number_reg
-  end
-
-  def Student.is_email_valid? (checked_email)
-    email_reg = /^[A-Za-z0-9._-]+\@[A-Za-z0-9._-]{0,5}mail\.[A-Za-z0-9._-]+/
-
-    return checked_email =~ email_reg
-  end
-
-  def Student.is_name_valid? (checked_name)
-    name_reg = /^[A-Za-zА-яа-я]+$/
-
-    return checked_name =~ name_reg
-  end
-
-  def Student.is_git_valid? (checked_git)
-    git_reg = /^github\.com\/[A-Za-z0-9._-]+\/?$/
-
-    return checked_git =~ git_reg
-  end
-
-  def Student.is_telegram_valid? (checked_telegram)
-    telegram_reg = /^@[A-Za-z0-9_]{5,20}$/
-
-    return checked_telegram =~ telegram_reg
-  end
-
-  def has_git?
-    if self.git.nil?
-      return false
-    end
-
-    return true
-
-  end
-
   def has_contact?
     if self.phone_number.nil? and self.email.nil? and self.telegram.nil?
       return false
     end
 
     return true
-
   end
 
   def set_contacts(hash_contacts)
@@ -220,12 +240,8 @@ class Student
 
   end
 
-  def get_name
-    "#{@surname} #{@firstname[0].upcase}.#{@lastname[0].upcase}." 
-  end
-
   def get_git_and_contact
-    "#{@git} #{self.get_contact}"
+    "#{self.get_git} #{self.get_contact}"
   end
 
   def getInfo
@@ -241,3 +257,71 @@ class Student
   end
 
 end
+
+
+class Student_Short < Person
+
+  attr_reader :name, :contact
+  
+  def initialize(id:, name:, git:, contact:)
+    initials = name.split[1].split('.')
+    surname, firstname, lastname = name.split[0], initials[0], initials[1]
+
+    if id.nil?
+      raise ArgumentError.new("Отсутствует id студента: #{surname} #{firstname}.#{lastname}.")
+    end
+
+    super(surname: surname, firstname: firstname, lastname: lastname, id: id, git: git)
+
+    self.contact = contact
+
+  end
+
+  def contact=(contact)
+    if contact.nil? or Person.is_phone_number_valid? (contact) or Person.is_email_valid? (contact) or Person.is_telegram_valid? (contact)
+      @contact = contact
+    else
+      raise ArgumentError.new("Неверный контакт студента: #{@id} #{@name}")
+    end
+  end
+
+  def Student_Short.create_from_string(id:, data:)
+    student_short_init = {}
+
+    params = Student_Short.parse_string_params(data)
+
+    student_short_init[:id] = id
+    student_short_init[:name] = params[0] + ' ' + params[1]
+    student_short_init[:git] = params[2]
+    student_short_init[:contact] = params[3..].join('')
+
+    self.new(**student_short_init)
+      
+  end
+
+  def Student_Short.create_from_student(student_obj)
+    student_short_init = {}
+
+    student_short_init[:id] = student_obj.get_id
+    student_short_init[:name] = student_obj.get_name
+    student_short_init[:git] = student_obj.get_git
+    student_short_init[:contact] = student_obj.get_contact
+
+    self.new(**student_short_init)
+
+  end
+
+  def self.parse_string_params(str_params)
+    return str_params.split
+  end
+
+  def to_s
+    "#{@id} #{self.get_name} #{self.get_git} #{@contact}"
+  end
+
+  def to_str
+    "id: #{@id}; name: #{@name}; git: #{@git}; contact: #{@contact}"
+  end
+
+end
+
