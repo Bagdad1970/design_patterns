@@ -249,7 +249,7 @@ class Student < Person
   end
 
   def to_s
-    "#{@id} #{@surname} #{@firstname} #{@lastname}\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{git}\n\n"
+    "#{@id} #{@surname} #{@firstname} #{@lastname}\nДанные для связи:\nНомер телефона: #{@phone_number}\nТелеграм: #{@telegram}\nEmail: #{@email}\nGit: #{@git}\n\n"
   end
   
   def to_str
@@ -296,7 +296,7 @@ class Student_Short < Person
     student_short_init[:contact] = params[3..].join('')
 
     self.new(**student_short_init)
-      
+
   end
 
   def Student_Short.create_from_student(student_obj)
@@ -324,4 +324,3 @@ class Student_Short < Person
   end
 
 end
-
