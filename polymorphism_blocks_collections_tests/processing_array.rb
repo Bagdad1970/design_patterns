@@ -102,5 +102,23 @@ class Processing_Array
 
   end
 
+  def take_while
+    if !(block_given?)
+      return self.array.take_while
+    end
+
+    take_while_array = []
+    self.array.each do |elem|
+      if yield(elem) == false
+        break
+      end
+      take_while_array.append(elem)
+    end
+    
+    return take_while_array
+
+  end
+
+
 end
 
