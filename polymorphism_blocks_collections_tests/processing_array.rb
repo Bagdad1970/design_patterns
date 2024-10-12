@@ -24,5 +24,33 @@ class Processing_Array
     return self.array[index]
   end
 
+  def count(value = nil)
+    if value.nil? and block_given?
+      counter = 0
+      self.array.each do |elem|
+        if yield(elem) == true
+          counter += 1
+        end
+      end
+
+      return counter
+
+    elsif !(value.nil?) and !(block_given?)
+      counter = 0
+      self.array.each do |elem|
+        if elem == value.to_i
+          counter += 1
+        end
+      end
+
+      return counter
+
+    else
+      return self.array.size
+    end
+
+  end
+
+
 end
 
