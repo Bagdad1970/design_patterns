@@ -51,6 +51,19 @@ class Processing_Array
 
   end
 
+  def filter_map
+    if !(block_given?)
+      return self.array.filter_map
+    end
+
+    result_array = Array.new()
+    self.array.each do |elem|
+      result_array.append(yield(elem))
+    end
+  
+    return result_array
+
+  end
 
 end
 
