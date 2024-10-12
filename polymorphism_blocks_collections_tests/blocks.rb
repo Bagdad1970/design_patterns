@@ -13,3 +13,10 @@ def is_elem_global_max? (array, index)
   end
 
 end
+
+def is_elem_local_min? (array, index)
+  passing_array(array, index) do |array, element|
+    return element == array.min
+  end
+
+end
