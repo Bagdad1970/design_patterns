@@ -84,6 +84,23 @@ class Processing_Array
 
   end
 
+  def partition
+    if !(block_given?)
+      return self.array.partition
+    end
+
+    partition_array = [[], []]
+    self.array.each do |elem|
+      if yield(elem) == true
+        partition_array[0].append(elem)
+      else
+        partition_array[1].append(elem)   
+      end
+    end
+
+    return partition_array
+
+  end
 
 end
 
