@@ -65,5 +65,25 @@ class Processing_Array
 
   end
 
+  def group_by
+    if !(block_given?)
+      return self.array.group_by
+    end
+
+    hash = {}
+    self.array.each do |elem|
+      key = yield(elem)
+      if hash[key].nil?
+        hash[key] = [elem]
+      else
+        hash[key].append(elem)
+      end
+    end
+
+    return hash
+
+  end
+
+
 end
 
