@@ -10,6 +10,12 @@ class Node
     self.right = right
   end
 
+  def each(&block)
+    yield self
+    left.each(&block) if left
+    right.each(&block) if right
+  end
+
   def to_s
     data.to_s
   end
@@ -17,6 +23,8 @@ class Node
 end
 
 class Binary_Tree
+
+  include Enumerable
 
   attr_accessor :root
 
@@ -51,6 +59,10 @@ class Binary_Tree
       end
     end
 
+  end
+
+  def each(&block)
+    self.root.each(&block)
   end
 
   def print_NLR(node)

@@ -18,7 +18,7 @@ def main
 
     tree = Binary_Tree.new(student_array)
 
-    puts tree
+    tree.each{|node| puts node if node.data.birthdate <= Date.parse('2000-01-01')}
 
   rescue => err
     puts err
