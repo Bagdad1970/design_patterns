@@ -12,6 +12,23 @@ def is_elem_global_max? (array, index)
   end
 end
 
+def is_elem_extremum?(array, index)
+  if index <= 0 || index >= array.size
+    raise ArgumentError.new('Неверный индекс')
+  end
+
+  left_elem = (index != 0)? array[index-1] : array[index] - 1
+  right_elem = (index != array.size-1)? array[index+1] : array[index] - 1
+
+  yield(array[index], left_elem, right_elem)
+end
+
+def is_elem_local_min? (array, index)
+  is_elem_extremum?(array, index) {|current, left, right| current < left && current < right}
+end
+
+p is_elem_local_min?([1,2,-4,5,6], 1)
+
 def circular_shift_to_left (array)
   first_elem = array.shift
 
@@ -53,3 +70,5 @@ def unrepeated_and_frequency_arrays(array)
 
   return [unrepeated_array, frequency_array]
 end
+
+
