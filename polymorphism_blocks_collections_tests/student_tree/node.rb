@@ -10,6 +10,10 @@ class Node
     self.right = right
   end
 
+  def <=>(other)
+    self.data <=> other.data
+  end
+
   def each(&block)
     yield self
     left.each(&block) if left

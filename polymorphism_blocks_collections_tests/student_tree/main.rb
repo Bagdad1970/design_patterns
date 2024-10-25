@@ -16,9 +16,20 @@ def main
 
     student_array = [student0, student1, student2, student3, student4]
 
-    tree = Binary_Tree.new(student_array)
+    tree1 = Binary_Tree.new(student_array)
 
-    tree.each{|node| puts node if node.data.birthdate <= Date.parse('2000-01-01')}
+    puts tree1
+
+    nums_array = [5, 10, 300, 78, 9, 10]
+    tree2 = Binary_Tree.new(nums_array)
+
+    puts tree2
+
+    tree_min_max = tree1.minmax
+    puts "Максимальная дата:\n#{tree_min_max[0]}"
+    puts "Минимальная дата:\n#{tree_min_max[1]}"
+
+    tree1.each{|node| puts node if node.data.birthdate <= Date.parse('2000-01-01')}
 
   rescue => err
     puts err

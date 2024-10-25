@@ -9,32 +9,32 @@ class Binary_Tree
 
   private :root=
 
-  def initialize(student_array)
-    if student_array.nil?
+  def initialize(obj_array)
+    if obj_array.nil?
       raise ArgumentError.new('Неверный тип аргумента')
     end
 
-    self.root = Node.new(left: nil, right: nil, data: student_array[0])
+    self.root = Node.new(left: nil, right: nil, data: obj_array[0])
 
-    student_array[1..].each do |student|
-      add_node(self.root, student)
+    obj_array[1..].each do |obj|
+      add_node(self.root, obj)
     end
 
   end
 
-  def add_node(node, student)
-    if student.birthdate < node.data.birthdate
+  def add_node(node, obj)
+    if obj < node.data
       if node.left.nil?
-        node.left = Node.new(left: nil, right: nil, data: student)
+        node.left = Node.new(left: nil, right: nil, data: obj)
       else
-        add_node(node.left, student)
+        add_node(node.left, obj)
       end
 
     else
       if node.right.nil?
-        node.right = Node.new(left: nil, right: nil, data: student)
+        node.right = Node.new(left: nil, right: nil, data: obj)
       else
-        add_node(node.right, student)
+        add_node(node.right, obj)
       end
     end
 
