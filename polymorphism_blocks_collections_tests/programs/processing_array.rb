@@ -24,6 +24,16 @@ class Processing_Array
     return self.array[index]
   end
 
+  def <=>(other)
+    if self.array.sum < other.array.sum
+      return -1
+    elsif self.array.sum == other.array.sum
+      return 0
+    else
+      return 1
+    end
+  end
+
   def count(value = nil)
     if value.nil? and block_given?
       counter = 0
@@ -62,7 +72,6 @@ class Processing_Array
     end
   
     return result_array
-
   end
 
   def group_by
@@ -81,7 +90,39 @@ class Processing_Array
     end
 
     return hash
+  end
 
+  def min(value = nil)
+    if !(block_given?) and value.nil?
+      min_elem = self.array[0]
+      self.array[1..].each do |potential_min_elem|
+        if potential_min_elem < min_elem
+          min_elem = potential_min_elem
+        end
+      return min_elem
+
+      end
+    
+    elsif !(block_given?) and !(value.nil?)
+      return self.array.sort[0..value-1]
+
+    elsif block_given? and value.nil?
+      min_elem = self.array[0]
+      self.array[1..].each do |potential_min_elem|
+        if yield(potential_min_elem, min_elem) == -1  # elem < min_elem
+          min_elem = potential_min_elem
+        end
+      end
+
+      return min_elem
+
+    elsif block_given? and !(value.nil?)
+      sorted_array = self.array[0..].sort do |a, b|
+       yield(a, b)
+      end
+
+      return sorted_array[0..value-1] 
+    end
   end
 
   def partition
@@ -99,7 +140,6 @@ class Processing_Array
     end
 
     return partition_array
-
   end
 
   def take_while
@@ -116,9 +156,6 @@ class Processing_Array
     end
     
     return take_while_array
-
   end
 
-
 end
-
