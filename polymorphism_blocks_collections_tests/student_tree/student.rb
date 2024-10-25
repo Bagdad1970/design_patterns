@@ -1,7 +1,11 @@
+# 2. Больше покрытия в тестах
+
 require_relative 'person.rb'
 require 'date'
 
 class Student < Person
+
+  include Comparable
 
   attr_reader :telegram, :email, :phone_number, :birthdate
 
@@ -10,7 +14,16 @@ class Student < Person
     self.birthdate = birthdate
 
     super(surname: surname, firstname: firstname, lastname: lastname, id: id, git: git, contact: concatenate_contacts)
+  end
 
+  def <=>(other)
+    if self.birthdate < other.birthdate
+      return -1
+    elsif self.birthdate == other.birthdate
+      return 0
+    else
+      return 1
+    end
   end
 
   def concatenate_contacts
@@ -25,7 +38,6 @@ class Student < Person
     else
       raise ArgumentError.new("Неверный номер телефона студента: #{@id} #{@surname} #{@firstname} #{@lastname}")
     end
-
   end
 
   def email=(email)
@@ -34,7 +46,6 @@ class Student < Person
     else
       raise ArgumentError.new("Неверный адрес электронной почты: #{@id} #{@surname} #{@firstname} #{@lastname}")
     end
-
   end
 
   def telegram=(telegram)
