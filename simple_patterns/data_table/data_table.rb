@@ -12,6 +12,14 @@ class Data_Table
     self.matrix[row_index][column_index]
   end
 
+  def row_count
+    self.matrix.size
+  end
+
+  def column_count
+    self.matrix.max{|a, b| a.size <=> b.size}.size
+  end
+
   def to_s
     self.matrix.to_s 
   end
