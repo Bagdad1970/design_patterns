@@ -2,6 +2,8 @@ require_relative 'student.rb'
 
 class Node
 
+  include Comparable
+
   attr_accessor :left, :right, :data
 
   def initialize(left: nil, right: nil, data:)
