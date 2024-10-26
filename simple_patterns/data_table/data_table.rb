@@ -9,6 +9,12 @@ class Data_Table
   end
 
   def [](row_index, column_index)
+    if row_index < 0 or row_index >= self.row_count
+      raise IndexError.new('Неверный индекс строки')
+    if column_index < 0 or column_index >= self.column_count
+      raise IndexError.new('Неверный индекс столбца')
+    end
+
     self.matrix[row_index][column_index]
   end
 
