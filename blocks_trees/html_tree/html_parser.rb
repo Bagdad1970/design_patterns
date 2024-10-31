@@ -50,4 +50,3 @@ def parsing_html(html_string)
 
   return hash_tags
 end
-
