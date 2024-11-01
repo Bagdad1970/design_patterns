@@ -3,14 +3,16 @@ require './html_parser.rb'
 
 class HTML_Tree
 
-  @@void_tags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']
+  include HTML_Parser
 
   attr_accessor :root, :tag_stack
 
   private :root=, :tag_stack=
 
+  @@void_tags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']
+
   def initialize(html_string)
-    hash_tags = parsing_html(html_string)
+    hash_tags = HTML_Parser.parsing_html(html_string)
     
     root_tag = hash_tags[0]
     self.root = Tag.new(name: root_tag[:name], features: root_tag[:features], info: root_tag[:info], parent: nil, children: [])
@@ -20,7 +22,7 @@ class HTML_Tree
   end
 
   def HTML_Tree.create_from_file(filepath)
-    html_strings = read_html_from_file(filepath)
+    html_strings = HTML_Parser.read_html_from_file(filepath)
     self.new(html_strings)
   end
 
