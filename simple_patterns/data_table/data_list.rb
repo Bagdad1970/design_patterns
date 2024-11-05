@@ -28,6 +28,10 @@ class Data_List
     self.sorted_array[index][:selected] = true
   end
 
+  def get_selected
+    self.sorted_array.find_all{|elem| elem[:selected] == true}
+  end
+
   def to_s
     self.sorted_array.to_s
   end
