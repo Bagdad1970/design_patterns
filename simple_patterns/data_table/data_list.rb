@@ -5,7 +5,11 @@ class Data_List
   private :sorted_array, :sorted_array=
 
   def initialize(array)
-    self.sorted_array = array.sort{|a, b| b <=> a}
+    self.sorted_array = []
+    array.sort{|a, b| b <=> a}.each do |elem|
+      self.sorted_array.append({data: elem, selected: false})
+    end
+
   end
 
   def [](index)
@@ -14,6 +18,14 @@ class Data_List
     end
 
     self.sorted_array[index]
+  end
+
+  def select(index)
+    if index < 0 or index >= self.sorted_array.size
+      raise IndexError.new('Неверный индекс')
+    end
+
+    self.sorted_array[index][:selected] = true
   end
 
   def to_s

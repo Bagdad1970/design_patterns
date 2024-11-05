@@ -11,6 +11,8 @@ def main
 
     data_list = Data_List.new(['eifhei', 'hello', 'hi', 'bruh'])
 
+    data_list.select(1)
+
     puts data_list[1]
 
     puts data_list
@@ -19,7 +21,7 @@ def main
     puts error
 
   ensure
-    puts 'Работа завершена'
+    puts 'Выполнение завершено'
   end
 
 end
