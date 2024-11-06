@@ -40,6 +40,12 @@ class Data_List
 
   protected :get_names
 
+  def get_data
+
+  end
+
+  private :get_data
+
   def to_s
     "Data_List array: #{self.sorted_array.to_s}"
   end
