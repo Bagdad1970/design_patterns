@@ -32,13 +32,16 @@ class Data_List
     self.sorted_array.find_all{|elem| elem[:selected] == true}
   end
 
-  def get_names
-    obj_fields = self.sorted_array.first.instance_variables
+  public :select, :get_selected
 
-    return obj_fields.delete(:@id)
+  def get_names
+    obj_fields = self.sorted_array.first[:data].instance_variables
+    obj_fields.delete(:@id)
+
+    return obj_fields
   end
 
-  protected :get_names
+  public :get_names
 
   def get_data
 
