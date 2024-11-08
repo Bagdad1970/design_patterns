@@ -35,19 +35,19 @@ class Data_List
   public :select, :get_selected
 
   def get_names
-    obj_fields = self.sorted_array.first[:data].instance_variables
-    obj_fields.delete(:@id)
-
-    return obj_fields
   end
 
-  public :get_names
-
-  def get_data
-
+  def get_data(attribute_names)
   end
 
-  private :get_data
+  protected :get_names, :get_data
+
+  def get_data_table_with_values_by_names
+    attribute_names = self.get_names
+    data_table = get_data(attribute_names)
+
+    return data_table
+  end
 
   def to_s
     "Data_List array: #{self.sorted_array.to_s}"

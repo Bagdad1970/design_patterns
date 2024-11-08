@@ -6,6 +6,7 @@ def main
   begin
     data_table = Data_Table.new([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
+=begin
     puts data_table
 
     data_list = Data_List.new(['eifhei', 'hello', 'hi', 'bruh'])
@@ -16,6 +17,7 @@ def main
     puts data_list.get_selected
 
     puts data_list
+=end
 
     student_short1 = Student_Short.new(name: 'Каупервуд Ф.А.', contact: "@CowperwoodFinance", git: "github.com/Cowperwood/")
 
@@ -25,7 +27,7 @@ def main
 
     data_list_student_short = Data_List_Student_Short.new([student_short1, student_short2, student_short3])
 
-    puts data_list_student_short.get_data
+    puts data_list_student_short.get_data_table_with_values_by_names
 
   rescue => error
     puts error
