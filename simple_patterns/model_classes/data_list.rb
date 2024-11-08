@@ -1,16 +1,28 @@
 class Data_List
 
-  attr_accessor :sorted_array
+  attr_reader :sorted_array
 
-  private :sorted_array=
+  private :sorted_array
 
   def initialize(array)
-    self.sorted_array = []
+    self.sorted_array = array
+  end
 
-    array.sort{|a, b| b <=> a}.each do |elem|
-      self.sorted_array.append({data: elem, selected: false})
+  def sorted_array=(array)
+    if array.is_a?(Array) == true
+      sorted_array = []
+
+      array.sort{|a, b| b <=> a}.each do |elem|
+        sorted_array.append({data: elem, selected: false})
+      end
+
+      @sorted_array = sorted_array
+    else
+      raise ArgumentError.new("Неверный тип входных данных: #{array}")
     end
   end
+
+  public :sorted_array=
 
   def [](index)
     if index < 0 or index >= self.sorted_array.size

@@ -26,8 +26,10 @@ def main
     student_short4 = Student_Short.new(name: 'Жиллиман Р.Г.', git: "github.com/space_marine/", contact: 'RoboutEmperium@gmail.com')
 
 
-    data_list_student_short = Data_List_Student_Short.new([student_short1, student_short2, student_short3, student_short4])
+    data_list_student_short = Data_List_Student_Short.new([student_short1, student_short2])
+    puts data_list_student_short.get_data_table_with_values_by_names
 
+    data_list_student_short.sorted_array = [student_short3, student_short4]
     puts data_list_student_short.get_data_table_with_values_by_names
 
   rescue => error
