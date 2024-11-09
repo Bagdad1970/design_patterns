@@ -20,4 +20,21 @@ class Student_List_TXT
 
   private :filepath=, :student_array=
 
+  def read_from_txt()
+    student_array = Array.new()
+
+    File.open(self.filepath, 'r') do |file|
+      file.each_line do |line|
+        line.chomp!
+
+        if !(line.empty?)
+          student_array.append(Student.create_from_string(line))
+        end
+      end
+    end
+
+    self.student_array = student_array
+  end
+
+
 end
