@@ -7,7 +7,7 @@ class Person
     self.surname = surname
     self.firstname = firstname
     self.lastname = lastname
-    self.id = id
+    self.id = id.to_i
     self.git = git
     self.contact = contact
   end
