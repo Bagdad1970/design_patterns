@@ -12,6 +12,10 @@ class Person
     self.contact = contact
   end
 
+  def <=>(other)
+    self.get_name <=> other.get_name
+  end
+
   def surname=(surname)
     if !(surname.nil?) and Person.is_name_valid? (surname)
       @surname = surname
