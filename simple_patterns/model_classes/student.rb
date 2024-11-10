@@ -5,13 +5,16 @@ class Student < Person
 
   include Comparable
 
+  @@counter_objects = 0
+
   attr_reader :telegram, :email, :phone_number, :birthdate
 
-  def initialize(surname:, firstname:, lastname:, birthdate:, id: nil, phone_number: nil, telegram: nil, email: nil, git: nil)
+  def initialize(surname:, firstname:, lastname:, birthdate:, phone_number: nil, telegram: nil, email: nil, git: nil)
     set_contacts(phone_number: phone_number, email: email, telegram: telegram)
     self.birthdate = birthdate
 
-    super(surname: surname, firstname: firstname, lastname: lastname, id: id, git: git, contact: concatenate_contacts)
+    @@counter_objects += 1
+    super(surname: surname, firstname: firstname, lastname: lastname, id: @@counter_objects, git: git, contact: concatenate_contacts)
   end
 
   def <=>(other)
@@ -76,11 +79,9 @@ class Student < Person
           when 'surname'
             student_init[:surname] = value
           when 'firstname'
-          student_init[:firstname] = value
+            student_init[:firstname] = value
           when 'lastname'
-          student_init[:lastname] = value
-          when 'id'
-            student_init[:id] = value
+            student_init[:lastname] = value
           when 'birthdate'
             student_init[:birthdate] = value
           when 'phone_number'
@@ -121,7 +122,7 @@ class Student < Person
   end
   
   def to_file
-    "id: #{@id}; surname: #{@surname}; firstname: #{@firstname}; lastname: #{@lastname}; birthdate: #{@birthdate}; phone_number: #{@phone_number}; telegram: #{@telegram}; email: #{@email}; git: #{@git}"
+    "surname: #{@surname}; firstname: #{@firstname}; lastname: #{@lastname}; birthdate: #{@birthdate}; phone_number: #{@phone_number}; telegram: #{@telegram}; email: #{@email}; git: #{@git}"
   end
 
 end

@@ -19,7 +19,7 @@ def main
     puts data_list.get_selected
 
     puts data_list
-
+=begin
     student_short1 = Student_Short.create_from_string(id: 1, data: 'Каупервуд Ф.А. github.com/Cowperwood/ @CowperwoodFinance')
 
     student_short2 = Student_Short.create_from_string(id: 2, data: 'Мартин Р.С. github.com/robert_martin/ +1(123)554-78-93')
@@ -33,28 +33,26 @@ def main
 
     data_list_student_short.sorted_array = [student_short3, student_short4]
     puts data_list_student_short.get_data_table_with_values_by_names
+    
+    student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
-    student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', id: 1, phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
+    student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
 
-    student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06', id: 2)
+    student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
 
-    student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31', id: 3)
-
-    student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', id: 4)
+=end
+    student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
 
     student_list_txt = Student_List_TXT.new(filepath: './output_student_list_txt')
     student_list_txt.read_from_txt()
 
     #student_list_txt.write_to_txt(student_array)
+    puts student_list_txt.get_k_n_student_short_list(page: 1)
 
-    #puts student_list_txt.get_k_n_student_short_list(page: 2, data_list: data_list_student_short)
-
-    #puts student_list_txt.sort_by_name
-
-    #student_list_txt.replace_student_by_id(1, student4)
-
-    #student_list_txt.delete_student_by_id(4)
-
+    puts student_list_txt.sort_by_name
+    student_list_txt.add_student(Student.new(surname: 'Фамилия', firstname: 'Имя', lastname: 'Отчество', birthdate: '2000/12/12'))
+    student_list_txt.replace_student_by_id(1, student4)
+    student_list_txt.delete_student_by_id(4)
     puts student_list_txt.get_student_short_count
 
   rescue => error
