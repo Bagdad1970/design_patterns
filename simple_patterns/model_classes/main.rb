@@ -47,9 +47,11 @@ def main
 
     #student_list_txt.write_to_txt(student_array)
 
-    puts student_list_txt.get_k_n_student_short_list(page: 2, data_list: data_list_student_short)
+    #puts student_list_txt.get_k_n_student_short_list(page: 2, data_list: data_list_student_short)
 
     puts student_list_txt.sort_by_name
+
+    student_list_txt.replace_student_by_id(1, student4)
 
   rescue => error
     puts error

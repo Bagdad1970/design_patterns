@@ -12,6 +12,20 @@ class Student_List_TXT
     self.student_array = student_array
   end
 
+=begin
+  def []=(index, student)
+    if index < 0 or index >= self.student_array.size
+      raise IndexError.new('Неверный индекс')
+    elsif student.is_a? (Student) == false
+      raise ArgumentError.new('Неверный тип входного значения')
+    end
+
+    self.student_array[index] = student
+  end
+
+  private :[]=
+=end
+
   def student_array=(student_array)
     if student_array.nil? or student_array.is_a? (Array)
       @student_array = student_array
@@ -72,5 +86,18 @@ class Student_List_TXT
   def sort_by_name
     return self.student_array.sort_by {|student| student.get_name}
   end
+
+  def add_student(student)
+    self.student_array.append(student)
+  end
+
+  def replace_student_by_id(required_id, new_student)
+    index = self.student_array.find_index {|student| student.id == required_id}
+    self.student_array[index] = new_student
+  end
+
+  #def delete_student_by_id(required_id)
+  #  self.student_array.delete_if {|student| student.id == required_id}
+  #end
 
 end
