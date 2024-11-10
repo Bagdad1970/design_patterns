@@ -49,6 +49,8 @@ def main
 
     puts student_list_txt.get_k_n_student_short_list(page: 2, data_list: data_list_student_short)
 
+    puts student_list_txt.sort_by_name
+
   rescue => error
     puts error
 
