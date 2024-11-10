@@ -55,6 +55,8 @@ def main
 
     #student_list_txt.delete_student_by_id(4)
 
+    puts student_list_txt.get_student_short_count
+
   rescue => error
     puts error
 
