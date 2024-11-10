@@ -96,8 +96,8 @@ class Student_List_TXT
     self.student_array[index] = new_student
   end
 
-  #def delete_student_by_id(required_id)
-  #  self.student_array.delete_if {|student| student.id == required_id}
-  #end
+  def delete_student_by_id(required_id)
+    self.student_array.delete_if {|student| student.id == required_id}
+  end
 
 end
