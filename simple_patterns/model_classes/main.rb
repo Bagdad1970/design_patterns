@@ -54,6 +54,8 @@ def execute_student_list_json
 
   puts student_list_json.get_k_n_student_short_list(page: 1)
 
+  puts student_list_json.sort_by_name
+
   #student_list_json.write_to_file(student_array, writing_mode = 'w')
     
 
