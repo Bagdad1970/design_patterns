@@ -34,6 +34,8 @@ def execute_student_list_txt
 end
 
 def execute_student_list_json
+
+=begin
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
   student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
@@ -43,10 +45,12 @@ def execute_student_list_json
   student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
 
   student_array = [student1, student2, student3, student4]
+=end
+
   student_list_json = Student_List_JSON.new(filepath: './output_json.json')
 
   student_list_json.read_from_file()
-  puts student_list_json.student_array
+  puts student_list_json.get_student_by_id(2)
 
   #student_list_json.write_to_file(student_array, writing_mode = 'w')
     
