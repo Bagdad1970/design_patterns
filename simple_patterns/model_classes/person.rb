@@ -55,7 +55,6 @@ class Person
     else
       raise ArgumentError.new("Неверный контакт человека: #{@id} #{@surname} #{@firstname} #{@lastname}")
     end
-
   end
 
   private :surname=, :firstname=, :lastname=, :id=, :git=

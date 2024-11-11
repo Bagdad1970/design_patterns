@@ -22,7 +22,7 @@ class Student_List_TXT
 
   private :filepath=, :student_array=
 
-  def read_from_txt
+  def read_from_file
     student_array = Array.new()
 
     File.open(self.filepath, 'r') do |file|
@@ -38,8 +38,8 @@ class Student_List_TXT
     self.student_array = student_array
   end
 
-  def write_to_txt(student_array, writing_mode = 'a')
-    file = File.new(self.filepath, 'a')
+  def write_to_file(student_array, writing_mode = 'a')
+    file = File.new(self.filepath, writing_mode)
 
     student_array.each do |student|
       file.puts(student.to_file)

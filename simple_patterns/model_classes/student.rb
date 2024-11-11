@@ -28,11 +28,11 @@ class Student < Person
   end
 
   def concatenate_contacts
-    (@phone_number ||= '') + ' ' + (@email ||= '') + ' ' + (@telegram ||= '')
+    @phone_number.to_s + ' ' + @email.to_s + ' ' + @telegram.to_s
   end
 
   def phone_number=(phone_number)
-    if phone_number.nil?
+    if phone_number.nil? or phone_number.empty?
       @phone_number = nil
     elsif Student.is_phone_number_valid? (phone_number)
       @phone_number = phone_number.gsub(' ', '')
@@ -42,15 +42,19 @@ class Student < Person
   end
 
   def email=(email)
-    if email.nil? or Student.is_email_valid? (email)
-      @email = email 
+    if email.nil? or email.empty?
+      @email = nil
+    elsif Student.is_email_valid? (email)
+      @email = email
     else
       raise ArgumentError.new("Неверный адрес электронной почты: #{@id} #{@surname} #{@firstname} #{@lastname}")
     end
   end
 
   def telegram=(telegram)
-    if telegram.nil? or Student.is_telegram_valid? (telegram)
+    if telegram.nil? or telegram.empty?
+      @telegram = nil
+    elsif Student.is_telegram_valid? (telegram)
       @telegram = telegram
     else
       raise ArgumentError.new("Неверный telegram: #{@id} #{@surname} #{@firstname} #{@lastname}")
@@ -123,6 +127,19 @@ class Student < Person
   
   def to_file
     "surname: #{@surname}; firstname: #{@firstname}; lastname: #{@lastname}; birthdate: #{@birthdate}; phone_number: #{@phone_number}; telegram: #{@telegram}; email: #{@email}; git: #{@git}"
+  end
+
+  def to_hash
+    {
+      surname: @surname,
+      firstname: @firstname,
+      lastname: @lastname,
+      birthdate: @birthdate,
+      phone_number: @phone_number,
+      telegram: @telegram,
+      email: @email,
+      git: @git
+    }
   end
 
 end
