@@ -79,4 +79,8 @@ class Student_List_JSON
     self.student_array.delete_if {|student| student.id == required_id}
   end
 
+  def get_student_short_count
+    self.student_array.size
+  end
+
 end
