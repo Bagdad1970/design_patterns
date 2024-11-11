@@ -30,4 +30,12 @@ class Student_List_JSON
     self.student_array = student_array_hash
   end
 
+  def write_to_file(student_array, writing_mode = 'w')
+    student_array_hash = student_array.map(&:to_hash)
+
+    File.open(self.filepath, writing_mode) do |file|
+      file.write(JSON.pretty_generate(student_array_hash)) 
+    end
+  end
+
 end
