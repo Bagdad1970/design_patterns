@@ -42,4 +42,21 @@ class Student_List_JSON
     return self.student_array.find{|student| student.id == required_id}
   end
 
+  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil)
+    if page <= 0
+      raise ArgumentError.new('Недопустимый номер страницы')
+    elsif amount_rows < 0
+      raise ArgumentError.new('Недопустимое количество записей')
+    end
+
+    student_short_array = self.student_array.each_with_object([]) {|student, array| array.append(Student_Short.create_from_student(student))}
+
+    start_index = (page-1) * amount_rows
+    end_index = [start_index + amount_rows - 1, student_short_array.size - 1].min
+
+    data_list = Data_List_Student_Short.new(student_short_array[start_index..end_index])
+
+    return data_list 
+  end
+
 end
