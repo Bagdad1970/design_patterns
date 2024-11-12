@@ -39,4 +39,8 @@ class Student_List_YAML
     end
   end
 
+  def get_student_by_id(required_id)
+    return self.student_array.find {|student| student.id == required_id}
+  end
+
 end
