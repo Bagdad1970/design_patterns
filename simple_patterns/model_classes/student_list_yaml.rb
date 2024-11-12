@@ -68,4 +68,13 @@ class Student_List_YAML
     self.student_array.append(student)
   end
 
+  def replace_student_by_id(required_id, new_student)
+    index = self.student_array.find_index {|student| student.id == required_id}
+
+    if index
+      self.student_array[index] = new_student
+    end
+  end
+
+
 end
