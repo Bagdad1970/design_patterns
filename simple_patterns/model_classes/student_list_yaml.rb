@@ -31,4 +31,12 @@ class Student_List_YAML
     self.student_array = student_array
   end
 
+  def write_to_file(student_array, writing_mode = 'w')
+    hash_student_array = student_array.map(&:to_hash)
+
+    File.open(self.filepath, writing_mode) do |file|
+      file.write(YAML.dump(hash_student_array)) 
+    end
+  end
+
 end
