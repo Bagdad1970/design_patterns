@@ -24,4 +24,11 @@ class Student_List_YAML
 
   private :filepath=, :student_array=
 
+  def read_from_file
+    yaml_data = YAML.safe_load(File.read(self.filepath), permitted_classes: [Date, Symbol])
+    
+    student_array = yaml_data.map {|yaml_student| Student.new(**yaml_student)}
+    self.student_array = student_array
+  end
+
 end
