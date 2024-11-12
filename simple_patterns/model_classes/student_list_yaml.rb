@@ -64,4 +64,8 @@ class Student_List_YAML
     return self.student_array.sort_by {|student| student.get_name}
   end
 
+  def add_student(student)
+    self.student_array.append(student)
+  end
+
 end
