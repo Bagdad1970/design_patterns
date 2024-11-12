@@ -4,6 +4,7 @@ require './data_list_student_short.rb'
 require './student.rb'
 require './student_list_txt.rb'
 require './student_list_json.rb'
+require './student_list_yaml.rb'
 
 def execute_student_list_txt
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
@@ -62,6 +63,24 @@ def execute_student_list_json
 end
 
 def execute_student_list_yaml
+=begin
+  student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
+
+  student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
+
+  student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+
+  student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
+  
+  student_array = [student1, student2, student3, student4]
+=end
+
+  student_list_yaml = Student_List_YAML.new(filepath: './output_yaml.yaml')
+
+  puts student_list_yaml.read_from_file
+
+  #student_list_yaml.write_to_file(student_array)
+
 
 end
 
@@ -98,7 +117,7 @@ def main
 
     #execute_student_list_txt
 
-    execute_student_list_json
+    #execute_student_list_json
 
     execute_student_list_yaml
     

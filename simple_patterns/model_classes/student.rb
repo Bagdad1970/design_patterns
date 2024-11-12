@@ -62,7 +62,7 @@ class Student < Person
   end
 
   def birthdate=(birthdate)
-    @birthdate = Date.parse(birthdate)
+    @birthdate = Date.parse(birthdate.to_s).to_date
   end
 
   private :birthdate=, :phone_number=, :email=, :telegram=
