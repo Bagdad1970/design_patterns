@@ -60,4 +60,8 @@ class Student_List_YAML
     return data_list 
   end
 
+  def sort_by_name
+    return self.student_array.sort_by {|student| student.get_name}
+  end
+
 end
