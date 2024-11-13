@@ -1,10 +1,10 @@
 require './data_table.rb'
 require './data_list.rb'
 require './data_list_student_short.rb'
-require './student.rb'
-require './student_list_txt.rb'
 require './student_list_json.rb'
+require './student_list_txt.rb'
 require './student_list_yaml.rb'
+require './student_list_context.rb'
 
 def execute_data_list_data_table
   data_table = Data_Table.new([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -48,12 +48,13 @@ def execute_student_list_txt
     
   student_array = [student1, student2, student3, student4]
 
-  student_list_txt = Student_List_TXT.new(filepath: './output_txt')
+  txt_strategy = Student_List_TXT.new
+
+  student_list_txt = Student_List_Context.new(filepath: './output_txt', strategy: txt_strategy, student_array: student_array)
   
-  student_list_txt.write_to_file(student_array)
+  student_list_txt.write_to_file
 
-  student_list_txt.read_from_file()
-
+  student_list_txt.read_from_file
   puts student_list_txt.get_k_n_student_short_list(page: 1)
 
   puts student_list_txt.sort_by_name
@@ -61,7 +62,6 @@ def execute_student_list_txt
   student_list_txt.replace_student_by_id(1, student4)
   student_list_txt.delete_student_by_id(4)
   puts student_list_txt.get_student_short_count
-
 end
 
 def execute_student_list_json
@@ -76,19 +76,18 @@ def execute_student_list_json
 
   student_array = [student1, student2, student3, student4]
 
-  student_list_json = Student_List_JSON.new(filepath: './output_json.json')
+  json_strategy = Student_List_JSON.new
 
-  student_list_json.write_to_file(student_array)
+  student_list_json = Student_List_Context.new(filepath: './output_json.json', strategy: json_strategy)
 
-  student_list_json.read_from_file()
+  #student_list_json.write_to_file
+
+  student_list_json.read_from_file
   puts student_list_json.get_student_by_id(2)
 
   puts student_list_json.get_k_n_student_short_list(page: 1)
 
   puts student_list_json.sort_by_name
-
-  
-    
 
 end
 
@@ -103,21 +102,30 @@ def execute_student_list_yaml
   
   student_array = [student1, student2, student3, student4]
 
-  student_list_yaml = Student_List_YAML.new(filepath: './output_yaml.yaml')
+  yaml_strategy = Student_List_YAML.new
 
-  student_list_yaml.write_to_file(student_array)
+  student_list_yaml = Student_List_Context.new(filepath: './output_yaml.yaml', strategy: yaml_strategy, student_array: student_array)
+
+  student_list_yaml.write_to_file
+
   puts student_list_yaml.read_from_file
+
+  puts student_list_yaml.get_student_by_id(2)
+
+  puts student_list_yaml.get_k_n_student_short_list(page: 1)
+  puts student_list_yaml.sort_by_name
 
 end
 
 
 def main
   begin
-    execute_data_list_data_table
-    
-    execute_student_list_txt
 
-    execute_student_list_json
+    #execute_data_list_data_table
+    
+    #execute_student_list_txt
+
+    #execute_student_list_json
 
     execute_student_list_yaml
     
