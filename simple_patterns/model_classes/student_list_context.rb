@@ -2,14 +2,18 @@ require './student.rb'
 require './student_short.rb'
 require './data_list_student_short.rb'
 
-class Student_List
+class Student_List_Context
 
   attr_accessor :filepath
   attr_reader :student_array
+  attr_accessor :strategy
 
-  def initialize(filepath: , student_array: nil)
+  private :strategy
+
+  def initialize(filepath: , strategy:, student_array: nil)
     self.filepath = filepath
     self.student_array = student_array
+    self.strategy = strategy
   end
 
   def student_array=(student_array)
@@ -21,6 +25,14 @@ class Student_List
   end
 
   private :filepath=, :student_array=
+
+  def read_from_file
+    self.student_array = self.strategy.read_from_file(self.filepath)
+  end
+  
+  def write_to_file(writing_mode = 'w')
+    self.strategy.write_to_file(self.filepath, self.student_array, writing_mode)
+  end
 
   def get_student_by_id(required_id)
     return self.student_array.find{|student| student.id == required_id}
