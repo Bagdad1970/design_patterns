@@ -18,7 +18,6 @@ def create_students(client)
                   GIT VARCHAR(40) NULL
                 );"
               )
-
 end
 
 def main()
