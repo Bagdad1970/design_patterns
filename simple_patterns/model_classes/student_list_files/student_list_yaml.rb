@@ -1,4 +1,4 @@
-require_relative 'student_list_strategy'
+require_relative '../student_list_strategy'
 require 'yaml'
 
 class Student_List_YAML < Student_List_Strategy

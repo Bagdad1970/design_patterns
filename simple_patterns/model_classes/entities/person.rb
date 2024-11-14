@@ -85,7 +85,7 @@ class Person
   end
 
   def Person.is_telegram_valid? (checked_telegram)
-    telegram_reg = /^@[A-Za-z0-9_]{4,20}$/
+    telegram_reg = /^@[A-Za-z0-9_]{4,32}$/
 
     return checked_telegram =~ telegram_reg
   end

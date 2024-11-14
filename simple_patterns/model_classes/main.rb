@@ -1,9 +1,9 @@
-require './data_table.rb'
-require './data_list.rb'
-require './data_list_student_short.rb'
-require './student_list_json.rb'
-require './student_list_txt.rb'
-require './student_list_yaml.rb'
+require './output_classes/data_table.rb'
+require './output_classes/data_list.rb'
+require './output_classes/data_list_student_short.rb'
+require './student_list_files/student_list_json.rb'
+require './student_list_files/student_list_txt.rb'
+require './student_list_files/tudent_list_yaml.rb'
 require './student_list_context.rb'
 
 def execute_data_list_data_table

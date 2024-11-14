@@ -1,6 +1,6 @@
-require './student.rb'
-require './student_short.rb'
-require './data_list_student_short.rb'
+require './entities/student_short.rb'
+require './output_classes/data_list_student_short.rb'
+require './output_classes/data_table.rb'
 
 class Student_List_Context
 

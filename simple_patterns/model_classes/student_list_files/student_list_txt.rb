@@ -1,4 +1,4 @@
-require_relative 'student_list_strategy'
+require_relative '../student_list_strategy'
 
 class Student_List_TXT < Student_List_Strategy
   
