@@ -3,8 +3,9 @@ require './output_classes/data_list.rb'
 require './output_classes/data_list_student_short.rb'
 require './student_list_files/student_list_json.rb'
 require './student_list_files/student_list_txt.rb'
-require './student_list_files/tudent_list_yaml.rb'
+require './student_list_files/student_list_yaml.rb'
 require './student_list_context.rb'
+require './student_list_db.rb'
 
 def execute_data_list_data_table
   data_table = Data_Table.new([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -117,6 +118,15 @@ def execute_student_list_yaml
 
 end
 
+def execute_student_list_db
+
+  student_list_db = Student_List_DB.new(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+
+  result = student_list_db.client.query('SELECT * FROM STUDENTS')
+  result.each {|row| puts row}
+
+end
+
 
 def main
   begin
@@ -127,7 +137,9 @@ def main
 
     #execute_student_list_json
 
-    execute_student_list_yaml
+    #execute_student_list_yaml
+
+    execute_student_list_db
     
   rescue => error
     puts error
