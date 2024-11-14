@@ -17,6 +17,10 @@ class Student < Person
     super(surname: surname, firstname: firstname, lastname: lastname, id: @@counter_objects, git: git, contact: concatenate_contacts)
   end
 
+  def Student.create_from_hash(student_hash)
+    self.new(surname: student_hash[:surname], firstname: student_hash[:firstname], lastname: student_hash[:lastname], birthdate: student_hash[:birthdate], phone_number: student_hash[:phone_number], telegram: student_hash[:telegram], email: student_hash[:email], git: student_hash[:git])
+  end
+
   def <=>(other)
     if self.birthdate < other.birthdate
       return -1
