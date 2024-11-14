@@ -38,7 +38,18 @@ class Student_Short < Person
     self.new(**student_short_init)
   end
 
-  def self.parse_string_params(str_params)
+  def Student_Short.create_from_hash(student_hash)
+    student_short_init = {}
+
+    student_short_init[:id] = student_hash[:id]
+    student_short_init[:name] = student_hash[:surname] + ' ' + student_hash[:firstname][0].upcase + '.' + student_hash[:lastname][0].upcase + '.'
+    student_short_init[:git] = student_hash[:git]
+    student_short_init[:contact] = (student_hash[:phone_number].to_s + ' ' + student_hash[:telegram].to_s + ' ' + student_hash[:email].to_s).split[0]
+
+    self.new(**student_short_init)
+  end
+
+  def Student_Short.parse_string_params(str_params)
     return str_params.split
   end
 

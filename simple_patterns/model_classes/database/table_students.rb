@@ -5,7 +5,7 @@ def connect_to_db(host: , username:, password: , database:)
   return client
 end
 
-def create_students(client, insert_filepath)
+def create_students(client, create_filepath)
   create_command = File.read(create_filepath)
 
   client.query(create_command)

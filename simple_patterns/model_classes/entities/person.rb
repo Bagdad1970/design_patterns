@@ -73,7 +73,7 @@ class Person
   end
 
   def Person.is_name_valid? (checked_name)
-    name_reg = /^[A-Za-zА-Яа-я]+$/
+    name_reg = /^[A-Za-zА-Яа-яёЁ]+$/
 
     return checked_name =~ name_reg
   end

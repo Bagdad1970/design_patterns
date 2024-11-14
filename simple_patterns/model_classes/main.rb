@@ -127,6 +127,8 @@ def execute_student_list_db
 
   p student_list_db.get_student_by_id(5)
 
+  p student_list_db.get_k_n_student_short_list(page: 2)
+
 end
 
 
