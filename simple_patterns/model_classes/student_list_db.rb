@@ -32,7 +32,11 @@ class Student_List_DB
   end
 
   def delete_student_by_id(required_id)
-    self.client.query("DELETE FROM STUDENTS WHERE ID = #{required_id}")
+    self.client.query("DELETE FROM STUDENTS WHERE ID = #{required_id};")
+  end
+
+  def get_student_count
+    self.client.query("SELECT COUNT(*) AS count FROM STUDENTS;").first['count']
   end
 
 end
