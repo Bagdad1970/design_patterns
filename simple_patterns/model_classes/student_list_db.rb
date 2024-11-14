@@ -31,5 +31,9 @@ class Student_List_DB
     return data_list 
   end
 
+  def delete_student_by_id(required_id)
+    self.client.query("DELETE FROM STUDENTS WHERE ID = #{required_id}")
+  end
+
 end
 
