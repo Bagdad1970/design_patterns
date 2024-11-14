@@ -10,5 +10,9 @@ class Student_List_DB
 
   private :client=
 
+  def get_student_by_id(required_id)
+    return self.client.query("SELECT * FROM STUDENTS WHERE STUDENT_ID = #{required_id}").first
+  end
+
 end
 

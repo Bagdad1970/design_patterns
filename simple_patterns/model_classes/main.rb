@@ -122,8 +122,10 @@ def execute_student_list_db
 
   student_list_db = Student_List_DB.new(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
 
-  result = student_list_db.client.query('SELECT * FROM STUDENTS')
-  result.each {|row| puts row}
+  #result = student_list_db.client.query('SELECT * FROM STUDENTS')
+  #result.each {|row| puts row}
+
+  p student_list_db.get_student_by_id(5)
 
 end
 
