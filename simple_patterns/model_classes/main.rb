@@ -138,7 +138,7 @@ def execute_student_list_db
 
   #student_list_db.delete_student_by_id(31)
 
-  p student_list_db.get_student_count
+  #p student_list_db.get_student_count
 
 end
 

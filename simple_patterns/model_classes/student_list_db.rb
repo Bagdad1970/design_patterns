@@ -31,6 +31,11 @@ class Student_List_DB
     return data_list 
   end
 
+  def add_student(student)
+    self.client.query("INSERT INTO STUDENTS (surname, firstname, lastname, birthdate, phone_number, telegram, email, git)
+      VALUES ('#{student.surname}', '#{student.firstname}', '#{student.lastname}', '#{student.birthdate}', '#{student.phone_number}', '#{student.telegram}', '#{student.email}', '#{student.git}')")
+  end
+
   def delete_student_by_id(required_id)
     self.client.query("DELETE FROM STUDENTS WHERE ID = #{required_id};")
   end
