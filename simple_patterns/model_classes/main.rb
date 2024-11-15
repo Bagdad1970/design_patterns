@@ -123,24 +123,27 @@ end
 def execute_student_list_db
 
   student_list_db = Student_List_DB.new(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+=begin
+  result = student_list_db.custom_query('SELECT * FROM STUDENTS')
+  result.each {|row| puts row}
 
-  #result = student_list_db.client.query('SELECT * FROM STUDENTS')
-  #result.each {|row| puts row}
+  p student_list_db.get_student_by_id(5)
 
-  #p student_list_db.get_student_by_id(5)
-
-  #p student_list_db.get_k_n_student_short_list(page: 2)
+  p student_list_db.get_k_n_student_short_list(page: 2)
 
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000-12-12', phone_number: '+79054045754', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
 
-  #student_list_db.add_student(student1)
+  student_list_db.add_student(student1)
 
-  #student_list_db.delete_student_by_id(31)
+  student_list_db.delete_student_by_id(33)
 
-  #p student_list_db.get_student_count
+  student_list_db.get_student_count
 
-  #student_list_db.replace_student_by_id(27, student1)
+  student_list_db.replace_student_by_id(30, student1)
+=end
+
+  student_list_db.close_connection
 
 end
 
