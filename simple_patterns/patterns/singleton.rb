@@ -1,6 +1,6 @@
 class Config
 
-  @config = nil
+  @instance = nil
 
   attr_accessor :config
 
@@ -11,7 +11,7 @@ class Config
   end
 
   def Config.get_instance
-    @config ||= self.new
+    @instance ||= self.new
   end
 
   private_class_method :new

@@ -2,6 +2,8 @@ require 'mysql2'
 
 class Client_DB
 
+  @instance_db = nil
+
   attr_accessor :client
 
   def initialize(host: , username:, password: , database:)
@@ -21,7 +23,13 @@ class Client_DB
     raise Mysql2::Error::ConnectionError.new("Не удалось подключиться к базе данных") if self.client.nil?
   end
 
+  private_class_method :new
+
   private :client=
+
+  def Client_DB.get_instance(host: , username: , password:, database: )
+    @instance_db ||= self.new(host: host, username: username, password: password, database: database)
+  end
 
   def select_student_by_id(required_id)
     self.client.query("SELECT * FROM STUDENTS WHERE ID = #{required_id}").first

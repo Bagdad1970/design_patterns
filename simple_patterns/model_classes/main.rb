@@ -8,6 +8,7 @@ require './entities/student.rb'
 require './entities/student_short.rb'
 require './student_list_context.rb'
 require './student_list_db.rb'
+require './client_database.rb'
 
 def execute_data_list_data_table
   data_table = Data_Table.new([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -122,7 +123,21 @@ end
 
 def execute_student_list_db
 
-  student_list_db = Student_List_DB.new(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+  #student_list_db1 = Student_List_DB.new(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+  client_db1 = Client_DB.get_instance(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+  client_db2 = Client_DB.get_instance(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+
+  p "Идентификатор объекта: #{client_db1.object_id}, #{client_db2.object_id}"
+
+  p "Количество записей: #{client_db1.get_student_count}, #{client_db2.get_student_count}"
+
+  client_db1.delete_student_by_id(30)
+  p "Количество записей: #{client_db1.get_student_count}, #{client_db2.get_student_count}"
+
+  client_db1.close
+
+  p "Попытка вывода после закрытия соединения: #{client_db2.get_student_count}"
+
 =begin
   result = student_list_db.custom_query('SELECT * FROM STUDENTS')
   result.each {|row| puts row}
@@ -143,7 +158,7 @@ def execute_student_list_db
   student_list_db.replace_student_by_id(30, student1)
 =end
 
-  student_list_db.close_connection
+  #student_list_db.close_connection
 
 end
 
