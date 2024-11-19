@@ -9,8 +9,9 @@ class Student_List_TXT < Student_List_Strategy
       file.each_line do |line|
         line.chomp!
 
-        if !(line.empty?)
-          student_array.append(Student.create_from_string(line))
+        unless line.empty?
+          new_student = Student.create_from_string(line)
+          student_array.append(new_student) unless student_array.include?(new_student)
         end
       end
     end

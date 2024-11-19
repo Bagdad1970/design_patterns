@@ -43,14 +43,13 @@ end
 
 def execute_student_list_txt
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
-
   student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
-
   student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+  student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
+  student5 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
 
-  student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
     
-  student_array = [student1, student2, student3, student4]
+  student_array = [student1, student2, student3, student4, student5]
 
   txt_strategy = Student_List_TXT.new
 
@@ -58,14 +57,19 @@ def execute_student_list_txt
   
   student_list_txt.write_to_file
 
+=begin
   student_list_txt.read_from_file
   puts student_list_txt.get_k_n_student_short_list(page: 1)
 
   puts student_list_txt.sort_by_name
   student_list_txt.add_student(Student.new(surname: 'Фамилия', firstname: 'Имя', lastname: 'Отчество', birthdate: '2000/12/12'))
-  student_list_txt.replace_student_by_id(1, student4)
+
+  student6 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
+
+  student_list_txt.replace_student_by_id(1, student6)
   student_list_txt.delete_student_by_id(4)
   puts student_list_txt.get_student_short_count
+=end
 end
 
 def execute_student_list_json
@@ -78,21 +82,28 @@ def execute_student_list_json
 
   student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
 
-  student_array = [student1, student2, student3, student4]
+  student5 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
+
+
+  student_array = [student1, student2, student3, student4, student5]
 
   json_strategy = Student_List_JSON.new
 
-  student_list_json = Student_List_Context.new(filepath: './output_json.json', strategy: json_strategy)
+  student_list_json = Student_List_Context.new(filepath: './output_json.json', strategy: json_strategy, student_array: student_array)
+
+  puts student_list_json
 
   #student_list_json.write_to_file
-
+  
   student_list_json.read_from_file
+
+=begin
   puts student_list_json.get_student_by_id(2)
 
   puts student_list_json.get_k_n_student_short_list(page: 1)
 
   puts student_list_json.sort_by_name
-
+=end
 end
 
 def execute_student_list_yaml
@@ -103,22 +114,25 @@ def execute_student_list_yaml
   student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
 
   student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
+
+  student5 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
   
-  student_array = [student1, student2, student3, student4]
+  student_array = [student1, student2, student3, student4, student5]
 
   yaml_strategy = Student_List_YAML.new
 
   student_list_yaml = Student_List_Context.new(filepath: './output_yaml.yaml', strategy: yaml_strategy, student_array: student_array)
 
-  student_list_yaml.write_to_file
+  #student_list_yaml.write_to_file
 
   puts student_list_yaml.read_from_file
 
+=begin
   puts student_list_yaml.get_student_by_id(2)
 
   puts student_list_yaml.get_k_n_student_short_list(page: 1)
   puts student_list_yaml.sort_by_name
-
+=end
 end
 
 def execute_student_list_db
@@ -172,9 +186,9 @@ def main
 
     #execute_student_list_json
 
-    #execute_student_list_yaml
+    execute_student_list_yaml
 
-    execute_student_list_db
+    #execute_student_list_db
     
   rescue => error
     puts error

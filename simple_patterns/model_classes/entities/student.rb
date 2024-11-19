@@ -29,7 +29,10 @@ class Student < Person
   end
 
   def ==(other)
-    if self.git == other.git and self.phone_number == other.phone_number and self.email == other.email and self.telegram == other.telegram
+    if (!self.git.nil? && self.git == other.git) ||
+      (!self.phone_number.nil? && self.phone_number == other.phone_number) ||
+      (!self.email.nil? && self.email == other.email) ||
+      (!self.telegram.nil? && self.telegram == other.telegram)
       return true
     else
       return false
@@ -71,7 +74,7 @@ class Student < Person
   end
 
   def birthdate=(birthdate)
-    @birthdate = Date.parse(birthdate).to_date
+    @birthdate = Date.parse(birthdate.to_s).to_date
   end
 
   private :birthdate=, :phone_number=, :email=, :telegram=
@@ -137,11 +140,12 @@ class Student < Person
   end
   
   def to_file
-    "surname: #{@surname}; firstname: #{@firstname}; lastname: #{@lastname}; birthdate: #{@birthdate}; phone_number: #{@phone_number}; telegram: #{@telegram}; email: #{@email}; git: #{@git}"
+    "id: #{id}; surname: #{@surname}; firstname: #{@firstname}; lastname: #{@lastname}; birthdate: #{@birthdate}; phone_number: #{@phone_number}; telegram: #{@telegram}; email: #{@email}; git: #{@git}"
   end
 
   def to_hash
     {
+      id: @id,
       surname: @surname,
       firstname: @firstname,
       lastname: @lastname,
