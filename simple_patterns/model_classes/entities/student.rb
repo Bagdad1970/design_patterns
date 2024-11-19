@@ -5,16 +5,13 @@ class Student < Person
 
   include Comparable
 
-  @@counter_objects = 0
-
   attr_reader :telegram, :email, :phone_number, :birthdate
 
-  def initialize(surname:, firstname:, lastname:, birthdate:, phone_number: nil, telegram: nil, email: nil, git: nil)
+  def initialize(surname:, firstname:, lastname:, birthdate:, id: nil, phone_number: nil, telegram: nil, email: nil, git: nil)
     set_contacts(phone_number: phone_number, email: email, telegram: telegram)
     self.birthdate = birthdate
 
-    @@counter_objects += 1
-    super(surname: surname, firstname: firstname, lastname: lastname, id: @@counter_objects, git: git, contact: concatenate_contacts)
+    super(surname: surname, firstname: firstname, lastname: lastname, id: id, git: git, contact: concatenate_contacts)
   end
 
   def Student.create_from_hash(student_hash)
@@ -28,6 +25,14 @@ class Student < Person
       return 0
     else
       return 1
+    end
+  end
+
+  def ==(other)
+    if self.git == other.git and self.phone_number == other.phone_number and self.email == other.email and self.telegram == other.telegram
+      return true
+    else
+      return false
     end
   end
 
@@ -92,6 +97,8 @@ class Student < Person
             student_init[:lastname] = value
           when 'birthdate'
             student_init[:birthdate] = value
+          when 'id'
+            student_init[:id] = value
           when 'phone_number'
             student_init[:phone_number] = value
           when 'telegram'
