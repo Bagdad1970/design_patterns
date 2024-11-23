@@ -18,12 +18,12 @@ class Student_List_Context
     if student_array.nil?
       @student_array = []
     elsif student_array.is_a? (Array)
-      uniq_student_array = []
+      unique_student_array = []
       student_array.each do |student|
-        uniq_student_array.append(student) unless uniq_student_array.include?(student)
+        unique_student_array.append(student) unless unique_student_array.include?(student)
       end
 
-      @student_array = uniq_student_array
+      @student_array = unique_student_array
     else
       raise TypeError.new('Неверный тип входных данных')
     end
@@ -64,11 +64,20 @@ class Student_List_Context
     return @student_array.sort_by {|student| student.get_name}
   end
 
+  def get_new_id
+    max_id = @student_array.reduce([]) {|student_ids, student| student_ids.append(student.id.to_i)}.max
+    return max_id + 1
+  end
+
+  private :get_new_id
+
   def add_student(new_student)
     if @student_array.include?(new_student) == true
       puts 'Такой студент уже существует'
     else
-      @student_array.append(new_student)
+      student_hash = new_student.to_hash
+      student_hash[:id] = self.get_new_id
+      @student_array.append(Student.new(**student_hash))
     end
   end
 

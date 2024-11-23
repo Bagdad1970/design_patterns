@@ -44,27 +44,36 @@ end
 def execute_student_list_txt
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
   student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
-  student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+  student3 = Student.new(id: 5, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
   student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
-  student5 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
-
+  student5 = Student.new(id: 12, surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
     
   student_array = [student1, student2, student3, student4, student5]
 
   txt_strategy = Student_List_TXT.new
 
-  student_list_txt = Student_List_Context.new(filepath: './output_txt', strategy: txt_strategy, student_array: student_array)
+  student_list_txt = Student_List_Context.new(filepath: './output_txt.txt', strategy: txt_strategy, student_array: student_array)
   
-  student_list_txt.write_to_file
+  #student_list_txt.write_to_file
+
+  p student_list_txt.read_from_file
 
 =begin
-  student_list_txt.read_from_file
+  student6 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
+  student7 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+  student_list_txt.add_student(student6)
+  student_list_txt.add_student(student7)
+
+  p student_list_txt
+=end
+
+=begin
   puts student_list_txt.get_k_n_student_short_list(page: 1)
 
   puts student_list_txt.sort_by_name
   student_list_txt.add_student(Student.new(surname: 'Фамилия', firstname: 'Имя', lastname: 'Отчество', birthdate: '2000/12/12'))
 
-  student6 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
+
 
   student_list_txt.replace_student_by_id(1, student6)
   student_list_txt.delete_student_by_id(4)
@@ -91,11 +100,9 @@ def execute_student_list_json
 
   student_list_json = Student_List_Context.new(filepath: './output_json.json', strategy: json_strategy, student_array: student_array)
 
-  puts student_list_json
-
   #student_list_json.write_to_file
   
-  student_list_json.read_from_file
+  p student_list_json.read_from_file
 
 =begin
   puts student_list_json.get_student_by_id(2)
