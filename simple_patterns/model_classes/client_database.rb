@@ -9,7 +9,7 @@ class Client_DB
   def initialize(host: , username:, password: , database:)
     self.client = nil
 
-    10.times do |attempt|
+    (1..10).each do |attempt|
       begin
         self.client = Mysql2::Client.new(host: host, username: username, password: password, database: database)
         puts "Успешное пожключения на попытке #{attempt}"

@@ -1,8 +1,9 @@
-require './entities/student_short.rb'
-require './output_classes/data_list_student_short.rb'
-require './output_classes/data_table.rb'
+require_relative '../entities/student_short.rb'
+require_relative '../output_classes/data_list_student_short.rb'
+require_relative '../output_classes/data_table.rb'
+require_relative 'istudent_list'
 
-class Student_List_Context
+class Student_List_File_Adapter < IStudent_List
 
   attr_accessor :filepath, :strategy
 
@@ -94,7 +95,7 @@ class Student_List_Context
     @student_array.delete_if {|student| student.id == required_id}
   end
 
-  def get_student_short_count
+  def get_student_count
     @student_array.size
   end
 

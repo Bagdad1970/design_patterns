@@ -1,4 +1,4 @@
-require_relative '../student_list_strategy'
+require_relative 'student_list_strategy'
 
 class Student_List_TXT < Student_List_Strategy
   
@@ -32,10 +32,7 @@ class Student_List_TXT < Student_List_Strategy
       student_hash[:id] = current_id
       current_id += 1
 
-      p student_hash
       student = Student.create_from_hash(student_hash)
-      p student
-
       file.puts(student.to_file)
     end
 

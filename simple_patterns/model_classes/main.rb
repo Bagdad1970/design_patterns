@@ -1,91 +1,59 @@
-require './output_classes/data_table.rb'
-require './output_classes/data_list.rb'
-require './output_classes/data_list_student_short.rb'
-require './student_list_files/student_list_json.rb'
-require './student_list_files/student_list_txt.rb'
-require './student_list_files/student_list_yaml.rb'
-require './entities/student.rb'
-require './entities/student_short.rb'
-require './student_list_context.rb'
-require './student_list_db.rb'
-require './client_database.rb'
-
-def execute_data_list_data_table
-  data_table = Data_Table.new([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-
-  puts data_table
-
-  data_list = Data_List.new(['eifhei', 'hello', 'hi', 'bruh'])
-
-  data_list.select(1)
-  data_list.select(2)
-
-  puts data_list.get_selected
-
-  puts data_list
-    
-  student_short1 = Student_Short.create_from_string(id: 1, data: 'Каупервуд Ф.А. github.com/Cowperwood/ @CowperwoodFinance')
-
-  student_short2 = Student_Short.create_from_string(id: 2, data: 'Мартин Р.С. github.com/robert_martin/ +1(123)554-78-93')
-
-  student_short3 = Student_Short.create_from_string(id: 3, data: 'Белокобыльский Б.В. github.com/bagdad1970/ +7(905)505-57-54')
-
-  student_short4 = Student_Short.create_from_string(id: 4, data: 'Жиллиман Р.Г. github.com/space_marine/ RoboutEmperium@gmail.com')
-
-  data_list_student_short = Data_List_Student_Short.new([student_short1, student_short2])
-  puts data_list_student_short.get_data_table_with_values_by_names
-
-  data_list_student_short.sorted_array = [student_short3, student_short4]
-  puts data_list_student_short.get_data_table_with_values_by_names
-
-end
-
+require_relative 'output_classes/data_table.rb'
+require_relative 'output_classes/data_list.rb'
+require_relative 'output_classes/data_list_student_short.rb'
+require_relative 'student_list_files/student_list_json.rb'
+require_relative 'student_list_files/student_list_txt.rb'
+require_relative 'student_list_files/student_list_yaml.rb'
+require_relative 'entities/student.rb'
+require_relative 'student_list/student_list_file_adapter.rb'
+require_relative 'student_list/student_list_db.rb'
+require_relative 'client_database.rb'
+require_relative 'student_list/student_list.rb'
 
 def execute_student_list_txt
-  student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
+  student1 = Student.new(id: 1, surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
   student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
-  student3 = Student.new(id: 5, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+  student3 = Student.new(id: 4, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
   student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
   student5 = Student.new(id: 12, surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', telegram: '@bruh123')
-    
+
   student_array = [student1, student2, student3, student4, student5]
 
-  txt_strategy = Student_List_TXT.new
+  student_list_txt = Student_List_File_Adapter.new(filepath: './output_txt.txt', strategy: Student_List_TXT.new, student_array: student_array)
 
-  student_list_txt = Student_List_Context.new(filepath: './output_txt.txt', strategy: txt_strategy, student_array: student_array)
-  
-  #student_list_txt.write_to_file
+  student_list_client = Student_List.new(student_list_txt)
 
-  p student_list_txt.read_from_file
+  #p student_list_client.get_student_count
 
-=begin
   student6 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
-  student7 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
-  student_list_txt.add_student(student6)
-  student_list_txt.add_student(student7)
-
-  p student_list_txt
-=end
 
 =begin
-  puts student_list_txt.get_k_n_student_short_list(page: 1)
+  student7 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+  student_list_client.add_student(student6)
+  student_list_client.add_student(student7)
 
-  puts student_list_txt.sort_by_name
-  student_list_txt.add_student(Student.new(surname: 'Фамилия', firstname: 'Имя', lastname: 'Отчество', birthdate: '2000/12/12'))
-
-
-
-  student_list_txt.replace_student_by_id(1, student6)
-  student_list_txt.delete_student_by_id(4)
-  puts student_list_txt.get_student_short_count
+  p student_list_client
 =end
+
+  #puts student_list_client.get_k_n_student_short_list(page: 1)
+
+  student_list_client.add_student(Student.new(surname: 'Фамилия', firstname: 'Имя', lastname: 'Отчество', birthdate: '2000/12/12'))
+
+  student_list_client.replace_student_by_id(1, student6)
+
+  p student_list_client
+
+  student_list_client.delete_student_by_id(4)
+
+  p student_list_client
+
 end
 
 def execute_student_list_json
 
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
-  student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
+  student2 = Student.new(id: 2, surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
 
   student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
 
@@ -93,30 +61,33 @@ def execute_student_list_json
 
   student5 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
-
   student_array = [student1, student2, student3, student4, student5]
 
-  json_strategy = Student_List_JSON.new
+  student_list_json = Student_List_File_Adapter.new(filepath: './output_json.json', strategy: Student_List_JSON.new, student_array: student_array)
 
-  student_list_json = Student_List_Context.new(filepath: './output_json.json', strategy: json_strategy, student_array: student_array)
+  student_list = Student_List.new(student_list_json)
 
-  #student_list_json.write_to_file
-  
-  p student_list_json.read_from_file
+  #puts student_list.get_student_by_id(2)
 
-=begin
-  puts student_list_json.get_student_by_id(2)
+  #puts student_list.get_k_n_student_short_list(page: 1, amount_rows: 3)
 
-  puts student_list_json.get_k_n_student_short_list(page: 1)
+  student6 = Student.new(id: 10, surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
 
-  puts student_list_json.sort_by_name
-=end
+  student_list.add_student(student6)
+
+  student7 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31', telegram: @Batler2010)
+  student_list.replace_student_by_id(3, student7)
+
+  student_list.delete_student_by_id(10)
+
+  p student_list.get_student_count
+
 end
 
 def execute_student_list_yaml
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
-  student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
+  student2 = Student.new(id: 2, surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
 
   student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
 
@@ -126,60 +97,39 @@ def execute_student_list_yaml
   
   student_array = [student1, student2, student3, student4, student5]
 
-  yaml_strategy = Student_List_YAML.new
+  student_list_yaml = Student_List_File_Adapter.new(filepath: './output_yaml.yaml', strategy: Student_List_YAML.new, student_array: student_array)
 
-  student_list_yaml = Student_List_Context.new(filepath: './output_yaml.yaml', strategy: yaml_strategy, student_array: student_array)
+  student_list = Student_List.new(student_list_yaml)
 
-  #student_list_yaml.write_to_file
+  puts student_list.get_student_by_id(2)
 
-  puts student_list_yaml.read_from_file
+  puts student_list.get_k_n_student_short_list(page: 1, amount_rows: 3)
 
-=begin
-  puts student_list_yaml.get_student_by_id(2)
+  student6 = Student.new(id: 10, surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
 
-  puts student_list_yaml.get_k_n_student_short_list(page: 1)
-  puts student_list_yaml.sort_by_name
-=end
+  student_list.add_student(student6)
+
+  student7 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31', telegram: @Batler2010)
+  student_list.replace_student_by_id(3, student7)
+
+  student_list.delete_student_by_id(10)
+
+  p student_list.get_student_count
 end
 
 def execute_student_list_db
+  student_list_db = Student_List_DB.new(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+  student_list = Student_List.new(student_list_db)
 
-  #student_list_db1 = Student_List_DB.new(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
-  client_db1 = Client_DB.get_instance(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
-  client_db2 = Client_DB.get_instance(host: 'localhost', username: 'bagdad', password: '123', database: 'mysql')
+  p student_list.get_student_count
 
-  p "Идентификатор объекта: #{client_db1.object_id}, #{client_db2.object_id}"
+  p student_list_db.get_k_n_student_short_list(page: 2, amount_rows: 5)
 
-  p "Количество записей: #{client_db1.get_student_count}, #{client_db2.get_student_count}"
+  #student6 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31', telegram: @Batler2010)
+  #student_list.add_student(student6)
 
-  client_db1.delete_student_by_id(30)
-  p "Количество записей: #{client_db1.get_student_count}, #{client_db2.get_student_count}"
-
-  client_db1.close
-
-  p "Попытка вывода после закрытия соединения: #{client_db2.get_student_count}"
-
-=begin
-  result = student_list_db.custom_query('SELECT * FROM STUDENTS')
-  result.each {|row| puts row}
-
-  p student_list_db.get_student_by_id(5)
-
-  p student_list_db.get_k_n_student_short_list(page: 2)
-
-  student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000-12-12', phone_number: '+79054045754', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
-
-
-  student_list_db.add_student(student1)
-
-  student_list_db.delete_student_by_id(33)
-
-  student_list_db.get_student_count
-
-  student_list_db.replace_student_by_id(30, student1)
-=end
-
-  #student_list_db.close_connection
+  #student_list.delete_student_by_id(30)
+  #p student_list.get_student_count
 
 end
 
@@ -189,13 +139,13 @@ def main
 
     #execute_data_list_data_table
     
-    #execute_student_list_txt
+    execute_student_list_txt
 
-    #execute_student_list_json
+    execute_student_list_json
 
     execute_student_list_yaml
 
-    #execute_student_list_db
+    execute_student_list_db
     
   rescue => error
     puts error

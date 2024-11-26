@@ -1,12 +1,13 @@
-require './client_database.rb'
-require './output_classes/data_table.rb'
+require_relative '../client_database.rb'
+require_relative '../output_classes/data_table.rb'
+require_relative 'istudent_list'
 
-class Student_List_DB
+class Student_List_DB < IStudent_List
 
   attr_accessor :client_db
 
   def initialize(host: , username:, password: , database:)
-    self.client_db = Client_DB.new(host: host, username: username, password: password, database: database)
+    self.client_db = Client_DB.get_instance(host: host, username: username, password: password, database: database)
   end
 
   private :client_db

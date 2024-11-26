@@ -1,4 +1,4 @@
-require_relative '../student_list_strategy'
+require_relative 'student_list_strategy'
 require 'json'
 
 class Student_List_JSON < Student_List_Strategy
