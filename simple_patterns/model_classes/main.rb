@@ -136,15 +136,11 @@ end
 
 def main
   begin
-
     #execute_data_list_data_table
     
     execute_student_list_txt
-
     execute_student_list_json
-
     execute_student_list_yaml
-
     execute_student_list_db
     
   rescue => error
