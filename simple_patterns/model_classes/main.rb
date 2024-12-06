@@ -6,6 +6,7 @@ require_relative 'student_list_files/student_list_txt.rb'
 require_relative 'student_list_files/student_list_yaml.rb'
 require_relative 'entities/student.rb'
 require_relative 'student_list/student_list_file_adapter.rb'
+require_relative 'student_list/student_list_file.rb'
 require_relative 'student_list/student_list_db.rb'
 require_relative 'client_database.rb'
 require_relative 'student_list/student_list.rb'
@@ -19,13 +20,28 @@ def execute_student_list_txt
 
   student_array = [student1, student2, student3, student4, student5]
 
-  student_list_txt = Student_List_File_Adapter.new(filepath: './output_txt.txt', strategy: Student_List_TXT.new, student_array: student_array)
+  student_list_txt = Student_List_File.new(filepath: './output_txt.txt', strategy: Student_List_TXT.new)
+  student_list_txt.read_from_file
 
-  student_list_client = Student_List.new(student_list_txt)
+  p student_list_txt
 
-  #p student_list_client.get_student_count
+  student_list_file_adapter = Student_List_File_Adapter.new(student_list_txt)
 
-  student6 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
+  p student_list_file_adapter.get_student_count
+
+
+  student_list = Student_List.new(student_list_file_adapter)
+
+  student7 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+
+  student_list.replace_student_by_id(1, student7)
+
+  #student_list.delete_student_by_id(3)
+
+  #student6 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
+
+  #student_list.add_student(student6) 
+
 
 =begin
   student7 = Student.new(id: 10, surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
@@ -37,15 +53,15 @@ def execute_student_list_txt
 
   #puts student_list_client.get_k_n_student_short_list(page: 1)
 
-  student_list_client.add_student(Student.new(surname: 'Фамилия', firstname: 'Имя', lastname: 'Отчество', birthdate: '2000/12/12'))
+  #student_list_client.add_student(Student.new(surname: 'Фамилия', firstname: 'Имя', lastname: 'Отчество', birthdate: '2000/12/12'))
 
-  student_list_client.replace_student_by_id(1, student6)
+  #student_list_client.replace_student_by_id(1, student6)
 
-  p student_list_client
+  #p student_list_client
 
-  student_list_client.delete_student_by_id(4)
+  #student_list_client.delete_student_by_id(4)
 
-  p student_list_client
+  #p student_list_client
 
 end
 
@@ -139,9 +155,9 @@ def main
     #execute_data_list_data_table
     
     execute_student_list_txt
-    execute_student_list_json
-    execute_student_list_yaml
-    execute_student_list_db
+    #execute_student_list_json
+    #execute_student_list_yaml
+    #execute_student_list_db
     
   rescue => error
     puts error
