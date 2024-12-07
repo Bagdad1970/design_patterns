@@ -1,6 +1,6 @@
 require_relative 'app/handler_frame.rb'
 require_relative 'app/student_table_frame.rb'
-
+require_relative 'app/filter_frame.rb'
 require 'fox16'
 include Fox
 
@@ -22,14 +22,11 @@ class MainWindow < FXMainWindow
   end
 
   def setup_student_list_view_areas(parent)
-    # Фильтрация
-    filter_area = FXHorizontalFrame.new(parent, opts: FRAME_SUNKEN | LAYOUT_FILL_X | LAYOUT_FIX_WIDTH | LAYOUT_FIX_HEIGHT, width: self.width * 0.10, height: self.height)
+    filter_area = FilterFrame.new(parent, opts: FRAME_SUNKEN | LAYOUT_FILL_X | LAYOUT_FIX_WIDTH | LAYOUT_FIX_HEIGHT, width: (self.width * 0.20).to_i, height: self.height)
+    
+    table_area = StudentTableFrame.new(parent, width: (self.width * 0.80).to_i, height: self.height)
 
-    # Таблица
-    table_area = StudentTableFrame.new(parent, width: (self.width * 0.85).to_i, height: self.height)
-
-    # Область управления
-    handler_area = HandlerFrame.new(parent, width: (self.width * 0.2).to_i, height: self.height)
+    handler_area = HandlerFrame.new(parent, width: (self.width * 0.15).to_i, height: self.height)
   end
 
   def create
