@@ -13,10 +13,10 @@ class FilterFrame < FXVerticalFrame
   end
 
   def add_name_field
-    part_frame = FXVerticalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH)
+    part_frame = FXVerticalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH )
 
     FXLabel.new(part_frame, "Фамилия и инициалы", opts: LAYOUT_LEFT)
-    FXTextField.new(part_frame, 30, opts: TEXTFIELD_NORMAL | LAYOUT_FILL_X)
+    FXTextField.new(part_frame, 30, opts: TEXTFIELD_NORMAL | LAYOUT_FILL_X | LAYOUT_CENTER_X)
   end
 
   def add_filter_part(label_text)
@@ -28,7 +28,7 @@ class FilterFrame < FXVerticalFrame
   end
 
   def create_combo_with_text(part_frame)
-    horizontal_frame = FXHorizontalFrame.new(part_frame, opts: LAYOUT_FILL_X)
+    horizontal_frame = FXHorizontalFrame.new(part_frame, opts: LAYOUT_FILL_X | LAYOUT_CENTER_X)
 
     combo_box = FXComboBox.new(horizontal_frame, 10, opts: COMBOBOX_NORMAL | FRAME_SUNKEN | FRAME_THICK | LAYOUT_FILL_X)
     combo_box.appendItem("Не важно")
