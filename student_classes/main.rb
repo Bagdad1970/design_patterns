@@ -10,6 +10,9 @@ require_relative 'student_list/student_list_file.rb'
 require_relative 'student_list/student_list_db.rb'
 require_relative 'client_database.rb'
 require_relative 'student_list/student_list.rb'
+require_relative 'filter/base_filter.rb'
+require_relative 'filter/has_git_filter.rb'
+require_relative 'filter/has_contact_filter.rb'
 
 def execute_student_list_txt
   student1 = Student.new(id: 1, surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
@@ -68,13 +71,9 @@ end
 def execute_student_list_json
 
   student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
-
   student2 = Student.new(id: 2, surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06')
-
   student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
-
   student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
-
   student5 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
 
   student_array = [student1, student2, student3, student4, student5]
@@ -107,11 +106,9 @@ def execute_student_list_yaml
 
   student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
 
-  student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1')
-
-  student5 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
+  student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', git: "github.com/DuneEmperor")
   
-  student_array = [student1, student2, student3, student4, student5]
+  student_array = [student1, student2, student3, student4]
 
   student_list_yaml = Student_List_File_Adapter.new(filepath: './output_yaml.yaml', strategy: Student_List_YAML.new, student_array: student_array)
 
@@ -146,7 +143,24 @@ def execute_student_list_db
 
   #student_list.delete_student_by_id(30)
   #p student_list.get_student_count
+end
 
+def execute_filter
+  student1 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '2000/12/12', phone_number: '+7 (905) 404-57-54', telegram: "@CowperwoodFinance", email: "CowperwoodF@gmail.com", git: "github.com/Cowperwood/")
+  student2 = Student.new(surname: 'Каупервуд', firstname: 'Фрэнк', lastname: 'Алджернон', birthdate: '1845/03/06', telegram: "@bruh123")
+  student3 = Student.new(surname: 'Батлер', firstname: 'Эдвард', lastname: 'Мэлия', birthdate: '2010/12/31')
+  student4 = Student.new(surname: 'Атрейдес', firstname: 'Пол', lastname: 'Летович', birthdate: '1980/01/1', git: "github.com/DuneEmperor")
+  
+  student_array = [student1, student2, student3, student4]
+
+  base_filter = BaseFilter.new()
+  has_git_filter = HasGitFilter.new(base_filter)
+
+  p has_git_filter.apply(student_array)
+
+  has_contact_filter = HasContactFilter.new(has_git_filter)
+
+  p has_contact_filter.apply(student_array)
 end
 
 
@@ -154,10 +168,12 @@ def main
   begin
     #execute_data_list_data_table
     
-    execute_student_list_txt
+    #execute_student_list_txt
     #execute_student_list_json
     #execute_student_list_yaml
     #execute_student_list_db
+
+    execute_filter
     
   rescue => error
     puts error

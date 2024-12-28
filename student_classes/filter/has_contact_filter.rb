@@ -7,9 +7,8 @@ class HasContactFilter < FilterDecorator
   end
 
   def apply(students)
-    if students.is_a?(Array)
-      return students.select {|student| student.has_contact? == true}
-    end
+    filtered_students = @wrappee.apply(students)
+    return filtered_students.select {|student| student.has_contact? == true}
   end
 
 end
