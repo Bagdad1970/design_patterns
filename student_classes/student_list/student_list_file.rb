@@ -51,14 +51,12 @@ class Student_List_File
       raise ArgumentError.new('Недопустимое количество записей')
     end
 
-    student_short_array = @student_array.each_with_object([]) {|student, array| array.append(Student_Short.create_from_student(student))}
-
     start_index = (page-1) * amount_rows
-    end_index = [start_index + amount_rows - 1, student_short_array.size - 1].min
+    end_index = [start_index + amount_rows - 1, @student_array.size - 1].min
 
-    data_list = Data_List_Student_Short.new(student_short_array[start_index..end_index])
+    student_short_array = @student_array[start_index..end_index].each_with_object([]) {|student, array| array.append(Student_Short.create_from_student(student))}
 
-    return data_list 
+    return Data_List_Student_Short.new(student_short_array)
   end
 
   def sort_by_name
