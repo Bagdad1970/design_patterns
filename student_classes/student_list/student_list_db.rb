@@ -16,13 +16,11 @@ class Student_List_DB < IStudent_List
     self.client_db.select_student_by_id(required_id)
   end
 
-  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil)
-    student_array = self.client_db.select_k_n_students(page: page, amount_rows: amount_rows)
+  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
+    student_array = self.client_db.select_k_n_students(page: page, amount_rows: amount_rows, filter: filter)
     student_short_array = student_array.each_with_object([]) {|student, array| array.append(Student_Short.create_from_hash(student))}
 
-    data_list = Data_List_Student_Short.new(student_short_array)
-
-    return data_list 
+    return Data_List_Student_Short.new(student_short_array)
   end
 
   def add_student(student)
@@ -37,8 +35,8 @@ class Student_List_DB < IStudent_List
     self.client_db.delete_student_by_id(required_id)
   end
 
-  def get_student_count
-    self.client_db.get_student_count
+  def get_student_count(filter: nil)
+    self.client_db.get_student_count(filter: filter)
   end
 
   def custom_query(custom_query)

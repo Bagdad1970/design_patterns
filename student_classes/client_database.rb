@@ -35,14 +35,46 @@ class Client_DB
     self.client.query("SELECT * FROM STUDENTS WHERE ID = #{required_id}").first
   end
 
-  def select_k_n_students(page:, amount_rows: 20)
+  def select_k_n_nonfiltered_students(page:, amount_rows: 20)
+    student_array = self.client.query("SELECT * FROM STUDENTS LIMIT #{amount_rows} OFFSET #{(page - 1) * amount_rows};", :symbolize_keys => true).to_a
+
+    return student_array
+  end
+
+  def get_filter_condition(filter)
+    filter_names = filter.filter_names
+    filter_conditions = Array.new()
+
+    if filter_names.include? ('HasGitFilter')
+      filter_conditions << "GIT IS NOT NULL"
+    end
+
+    if filter_names.include? ('HasContactFilter')
+      filter_conditions << "TELEGRAM IS NOT NULL"
+      filter_conditions << "PHONE_NUMBER IS NOT NULL"
+      filter_conditions << "EMAIL IS NOT NULL"
+    end
+
+    return filter_conditions.join(" AND ")
+  end
+
+  def select_k_n_filtered_students(filter:, page:, amount_rows: 20)
+    student_array = self.client.query("SELECT * FROM STUDENTS WHERE #{get_filter_condition(filter)} LIMIT #{amount_rows} OFFSET 0;", :symbolize_keys => true).to_a
+    return student_array
+  end
+
+  def select_k_n_students(page:, amount_rows: 20, filter: nil)
     if page <= 0
       raise ArgumentError.new('Недопустимый номер страницы')
     elsif amount_rows < 0
       raise ArgumentError.new('Недопустимое количество записей')
     end
 
-    student_array = self.client.query("SELECT * FROM STUDENTS LIMIT #{amount_rows} OFFSET #{(page - 1) * amount_rows};", :symbolize_keys => true).to_a
+    if filter.nil?
+      return select_k_n_nonfiltered_students(page: page, amount_rows: amount_rows)
+    else
+      return select_k_n_filtered_students(filter: filter, page: page, amount_rows: amount_rows)
+    end
   end
 
   def insert_student(student)
@@ -52,15 +84,15 @@ class Client_DB
 
   def update_student_by_id(required_id, new_student)
     self.client.query("UPDATE STUDENTS SET
-                       surname = '#{new_student.surname}',
-                       firstname = '#{new_student.firstname}',
-                       lastname = '#{new_student.lastname}',
-                       birthdate = '#{new_student.birthdate}',
-                       phone_number = '#{new_student.phone_number}',
-                       telegram = '#{new_student.telegram}',
-                       email = '#{new_student.email}',
-                       git = '#{new_student.git}'
-                       WHERE id = #{required_id};"
+                        surname = '#{new_student.surname}',
+                        firstname = '#{new_student.firstname}',
+                        lastname = '#{new_student.lastname}',
+                        birthdate = '#{new_student.birthdate}',
+                        phone_number = '#{new_student.phone_number}',
+                        telegram = '#{new_student.telegram}',
+                        email = '#{new_student.email}',
+                        git = '#{new_student.git}'
+                        WHERE id = #{required_id};"
                      )
   end
 
@@ -68,8 +100,12 @@ class Client_DB
     self.client.query("DELETE FROM STUDENTS WHERE ID = #{required_id};")
   end
 
-  def get_student_count
-    self.client.query("SELECT COUNT(*) AS count FROM STUDENTS;").first['count']
+  def get_student_count(filter: nil)
+    if filter.nil?
+      return self.client.query("SELECT COUNT(*) AS count FROM STUDENTS;").first['count']
+    else
+      return self.client.query("SELECT COUNT(*) AS count FROM STUDENTS WHERE #{get_filter_condition(filter)};").first['count']
+    end
   end
 
   def custom_query(custom_query)

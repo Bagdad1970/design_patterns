@@ -4,7 +4,7 @@ class IStudent_List
     raise NotImplementedError.new("#{self.class} not implemented method #{__method__}")
   end
 
-  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil)
+  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
     raise NotImplementedError.new("#{self.class} not implemented method #{__method__}")
   end
 
@@ -20,7 +20,7 @@ class IStudent_List
     raise NotImplementedError.new("#{self.class} not implemented method #{__method__}")
   end
 
-  def get_student_count
+  def get_student_count(filter: nil)
     raise NotImplementedError.new("#{self.class} not implemented method #{__method__}")
   end
 

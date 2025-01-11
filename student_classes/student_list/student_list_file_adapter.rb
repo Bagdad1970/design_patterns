@@ -17,8 +17,8 @@ class Student_List_File_Adapter < IStudent_List
     self.adapter.get_student_by_id(required_id) 
   end
 
-  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil)
-    self.adapter.get_k_n_student_short_list(page: page, amount_rows: amount_rows, data_list: data_list)
+  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
+    self.adapter.get_k_n_student_short_list(page: page, amount_rows: amount_rows, data_list: data_list, filter: filter)
   end
 
   def add_student(new_student)
@@ -36,8 +36,8 @@ class Student_List_File_Adapter < IStudent_List
     self.adapter.write_to_file
   end
 
-  def get_student_count
-    self.adapter.get_student_count
+  def get_student_count(filter: nil)
+    self.adapter.get_student_count(filter: filter)
   end
 
 end

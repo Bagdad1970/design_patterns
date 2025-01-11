@@ -44,13 +44,7 @@ class Student_List_File
     return @student_array.find{|student| student.id == required_id}
   end
 
-  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil)
-    if page <= 0
-      raise ArgumentError.new('Недопустимый номер страницы')
-    elsif amount_rows < 0
-      raise ArgumentError.new('Недопустимое количество записей')
-    end
-
+  def get_k_n_nonfiltered_student_short_list(page:, amount_rows: 20, data_list: nil)
     start_index = (page-1) * amount_rows
     end_index = [start_index + amount_rows - 1, @student_array.size - 1].min
 
@@ -58,6 +52,31 @@ class Student_List_File
 
     return Data_List_Student_Short.new(student_short_array)
   end
+
+  def get_k_n_filtered_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
+    filtered_student_array = filter.apply(@student_array)
+
+    end_index = [amount_rows - 1, filtered_student_array.size - 1].min
+
+    student_short_array = filtered_student_array[0..end_index].each_with_object([]) {|student, array| array.append(Student_Short.create_from_student(student))}
+
+    return Data_List_Student_Short.new(student_short_array)
+  end
+
+  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
+    if page <= 0
+      raise ArgumentError.new('Недопустимый номер страницы')
+    elsif amount_rows < 0
+      raise ArgumentError.new('Недопустимое количество записей')
+    end
+
+    if filter.nil?
+      return get_k_n_nonfiltered_student_short_list(page: page, amount_rows: amount_rows, data_list: data_list)
+    else
+      return get_k_n_filtered_student_short_list(page: page, amount_rows: amount_rows, data_list: data_list, filter: filter)
+    end
+
+      end
 
   def sort_by_name
     return @student_array.sort_by {|student| student.get_name}
@@ -93,8 +112,12 @@ class Student_List_File
     @student_array.delete_if {|student| student.id == required_id}
   end
 
-  def get_student_count
-    @student_array.size
+  def get_student_count(filter: nil)
+    if filter.nil?
+      return @student_array.size
+    else
+      return filter.apply(@student_array).size
+    end
   end
 
 end
