@@ -12,7 +12,7 @@ class Client_DB
     (1..10).each do |attempt|
       begin
         self.client = Mysql2::Client.new(host: host, username: username, password: password, database: database)
-        puts "Успешное пожключения на попытке #{attempt}"
+        puts "Успешное подключения на попытке #{attempt}"
         break
       rescue => error
         puts "Ошибка подключения на попытке #{attempt}: Ошибка: #{error}"

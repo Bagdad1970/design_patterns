@@ -5,13 +5,16 @@ class Student < Person
 
   include Comparable
 
-  attr_reader :telegram, :email, :phone_number, :birthdate
+  attr_reader :surname, :firstname, :lastname, :telegram, :email, :phone_number, :birthdate
 
   def initialize(surname:, firstname:, lastname:, birthdate:, id: nil, phone_number: nil, telegram: nil, email: nil, git: nil)
-    set_contacts(phone_number: phone_number, email: email, telegram: telegram)
     self.birthdate = birthdate
+    self.surname = surname
+    self.firstname = firstname
+    self.lastname = lastname
+    set_contacts(phone_number: phone_number, email: email, telegram: telegram)
 
-    super(surname: surname, firstname: firstname, lastname: lastname, id: id, git: git, contact: concatenate_contacts)
+    super(id: id, git: git, contact: contacts)
   end
 
   def Student.create_from_hash(student_hash)
@@ -39,8 +42,32 @@ class Student < Person
     end
   end
 
-  def concatenate_contacts
-    @phone_number.to_s + ' ' + @email.to_s + ' ' + @telegram.to_s
+  def contacts
+    [@phone_number, @email, @telegram]
+  end
+
+  def surname=(surname)
+    if !(surname.nil?) and Student.is_name_valid? (surname)
+      @surname = surname
+    else
+      raise ArgumentError.new("Неверная фамилия студента: #{@id}")
+    end
+  end
+
+  def firstname=(firstname)
+    if !(firstname.nil?) and Student.is_name_valid? (firstname)
+      @firstname = firstname
+    else
+      raise ArgumentError.new("Неверное имя студента: #{@id}")
+    end
+  end
+
+  def lastname=(lastname)
+    if !(lastname.nil?) and Student.is_name_valid? (lastname)
+      @lastname = lastname
+    else
+      raise ArgumentError.new("Неверное отчество студента: #{@id}")
+    end
   end
 
   def phone_number=(phone_number)
@@ -77,7 +104,7 @@ class Student < Person
     @birthdate = Date.parse(birthdate.to_s).to_date
   end
 
-  private :birthdate=, :phone_number=, :email=, :telegram=
+  private :surname, :firstname, :lastname, :birthdate=, :phone_number=, :email=, :telegram=
 
   def Student.params_from_string(str)
     if str.empty? || str.nil?
@@ -132,7 +159,15 @@ class Student < Person
     self.email = hash_contacts[:email]
     self.telegram = hash_contacts[:telegram]
 
-    self.contact = concatenate_contacts
+    self.contact = contacts
+  end
+
+  def get_name
+    "#{@surname} #{@firstname[0].upcase}.#{@lastname[0].upcase}."
+  end
+
+  def getInfo
+    "#{self.get_name} #{self.get_git_and_contact}"
   end
 
   def to_s

@@ -1,19 +1,42 @@
 require_relative 'person.rb'
 
 class Student_Short < Person
+
+  attr_reader :name
   
   def initialize(id:, name:, git:, contact:)
-    initials = name.split[1].split('.').map(&:capitalize)
-    surname, firstname, lastname = name.split[0], initials[0], initials[1]
-
     if id.nil?
-      raise ArgumentError.new("Отсутствует id студента: #{surname} #{firstname}.#{lastname}.")
+      raise ArgumentError.new("Отсутствует id студента: #{name}.")
     end
 
-    super(surname: surname, firstname: firstname, lastname: lastname, id: id, git: git, contact: contact)
+    self.name = name
+
+    super(id: id, git: git, contact: contact)
   end
 
   private_class_method :new
+
+  def name=(name)
+    splitted_name = name.split
+    surname, initials = splitted_name[0], splitted_name[1..].join('')
+    if Student_Short.is_name_valid? (surname) and Student_Short.is_initials_valid? (initials)
+      @name = name
+    else
+      raise ArgumentError.new("Неверное имя студента: #{@id}")
+    end
+  end
+
+  private :name=
+
+  def define_contact_type(contact)
+    if Student_Short.is_telegram_valid? (contact)
+      return "Телеграм: #{contact}"
+    elsif Student_Short.is_email_valid? (contact)
+      return "Электронная почта: #{contact}"
+    elsif Student_Short.is_phone_number_valid? (contact)
+      return "Номер телефона: #{contact}"
+    end
+  end
 
   def Student_Short.create_from_string(id:, data:)
     student_short_init = {}
@@ -54,7 +77,7 @@ class Student_Short < Person
   end
 
   def to_s
-    "#{@id} #{self.get_name} #{@git} #{@contact}"
+    "#{@id} #{@name} #{@git} #{@contact}"
   end
 
 end
