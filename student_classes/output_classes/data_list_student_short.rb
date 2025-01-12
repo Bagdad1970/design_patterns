@@ -31,6 +31,15 @@ class Data_List_Student_Short < Data_List
   end
 
   private :get_names, :get_data
+
+  def notify
+    column_names = self.get_names.reduce([]) {|array, symbol_name| array << symbol_name.to_s}
+    p column_names
+    set_table_params(column_names, self.count)
+
+    data_table = self.get_data_table
+    set_table_data(data_table)
+  end
  
   def to_s
     self.sorted_array.to_s
