@@ -38,13 +38,28 @@ class StudentListView < FXHorizontalFrame
     setup_page_buttons
   end
 
-  def setup_column_headers
+  def set_table_params(column_names, entities_count)
     column_headers = [{name: "№", width: 30}, {name: "Фамилия и инициалы", width: 200}, {name: "Гит", width: 250}, {name: "Контакты", width: 250}]
 
-    self.table.setTableSize(20, column_headers.size)
-    column_headers.each_with_index do |features, index|
-      self.table.setColumnText(index, features[:name])
-      self.table.setColumnWidth(index, features[:width])
+    self.table.setTableSize(entities_count, column_names.size)
+    column_names.each_with_index do |name, index|
+      self.table.setColumnText(index, name)
+    end
+  end
+
+  def set_table_data(data_table)
+    p self.table.numColumns
+    p self.table.numRows
+    (0...data_table.row_count).each do |row_index|
+      data_table[row_index].each_with_index do |item, column_index|
+          self.table.setItemText(row_index, column_index, item.to_s)
+      end
+    end
+
+    (data_table.row_count...self.table.numRows).each do |row_index|
+      (0...self.table.numColumns).each do |column_index|
+        self.table.setItemText(row_index, column_index, "")
+      end
     end
   end
 
@@ -65,8 +80,6 @@ class StudentListView < FXHorizontalFrame
         @edit_button.disable
       end
     end
-
-    setup_column_headers
   end
 
   def refresh_data

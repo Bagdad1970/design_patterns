@@ -1,7 +1,6 @@
 class Data_List
 
   attr_reader :sorted_array
-
   private :sorted_array
 
   def initialize(array)
@@ -22,7 +21,13 @@ class Data_List
     end
   end
 
-  public :sorted_array=
+  def size
+    self.sorted_array.size
+  end
+
+  def count
+    self.sorted_array.size
+  end
 
   def [](index)
     if index < 0 or index >= self.sorted_array.size

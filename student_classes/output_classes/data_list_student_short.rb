@@ -3,14 +3,20 @@ require_relative 'data_table.rb'
 
 class Data_List_Student_Short < Data_List
 
+  attr_accessor :view
+  private :view=
+
   def initialize(student_short_array)
     super(student_short_array)
+  end
+
+  def set_view(view)
+    self.view = view
   end
 
   def get_names
     object_fields = self.sorted_array.first[:data].instance_variables
     object_fields.delete(:@id)
-
     return object_fields
   end
 
@@ -34,11 +40,12 @@ class Data_List_Student_Short < Data_List
 
   def notify
     column_names = self.get_names.reduce([]) {|array, symbol_name| array << symbol_name.to_s}
-    p column_names
-    set_table_params(column_names, self.count)
+    column_names.unshift('id')
+    column_names.map! {|name| name.gsub('@', '').capitalize}
+    self.view.set_table_params(column_names, 20)
 
     data_table = self.get_data_table
-    set_table_data(data_table)
+    self.view.set_table_data(data_table)
   end
  
   def to_s
