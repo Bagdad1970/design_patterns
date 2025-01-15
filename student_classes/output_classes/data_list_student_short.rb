@@ -6,7 +6,7 @@ class Data_List_Student_Short < Data_List
   attr_accessor :view
   private :view=
 
-  def initialize(student_short_array)
+  def initialize(student_short_array=[])
     super(student_short_array)
   end
 
@@ -15,14 +15,14 @@ class Data_List_Student_Short < Data_List
   end
 
   def get_names
-    object_fields = self.sorted_array.first[:data].instance_variables
+    object_fields = self.data_list.first[:data].instance_variables
     object_fields.delete(:@id)
     return object_fields
   end
 
   def get_data(attribute_names)
     matrix = Array.new()
-    self.sorted_array.each_with_index do |elem, index|
+    self.data_list.each_with_index do |elem, index|
       object = elem[:data]
       row = [index+1]
       
@@ -49,7 +49,7 @@ class Data_List_Student_Short < Data_List
   end
  
   def to_s
-    self.sorted_array.to_s
+    self.data_list.to_s
   end
 
 end

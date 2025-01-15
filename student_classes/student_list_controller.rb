@@ -8,7 +8,7 @@ class StudentListController
   def initialize(student_list, view)
     self.student_list = student_list
     self.view = view
-    self.current_data_list = nil
+    self.current_data_list = Data_List_Student_Short.new
   end
 
   def get_max_page_num
@@ -18,7 +18,8 @@ class StudentListController
   def refresh_data(page)
     begin
       amount_rows = self.view.table.numRows.zero? ? 20 : self.view.table.numRows
-      self.current_data_list = self.student_list.get_k_n_student_short_list(page: page, amount_rows: amount_rows)
+      self.student_list.get_k_n_student_short_list(page: page, amount_rows: amount_rows, data_list: self.current_data_list)
+      p self.current_data_list
       self.current_data_list.set_view(self.view)
       self.current_data_list.notify
     rescue Mysql2::Error::ConnectionError

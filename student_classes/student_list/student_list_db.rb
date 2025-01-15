@@ -23,8 +23,8 @@ class Student_List_DB < IStudent_List
   def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
     begin
       student_array = self.client_db.select_k_n_students(page: page, amount_rows: amount_rows, filter: filter)
-      student_short_array = student_array.each_with_object([]) {|student, array| array.append(Student_Short.create_from_hash(student))}
-      return Data_List_Student_Short.new(student_short_array)
+      new_student_short_array = student_array.each_with_object([]) {|student, array| array.append(Student_Short.create_from_hash(student))}
+      data_list.replace_array(new_student_short_array)
     rescue
       raise
     end
