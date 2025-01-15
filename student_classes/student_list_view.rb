@@ -48,8 +48,6 @@ class StudentListView < FXHorizontalFrame
   end
 
   def set_table_data(data_table)
-    p self.table.numColumns
-    p self.table.numRows
     (0...data_table.row_count).each do |row_index|
       data_table[row_index].each_with_index do |item, column_index|
           self.table.setItemText(row_index, column_index, item.to_s)
@@ -83,8 +81,12 @@ class StudentListView < FXHorizontalFrame
   end
 
   def refresh_data
-    self.controller.refresh_data(self.current_page)
-    self.max_page = self.controller.get_max_page_num
+    begin
+      self.controller.refresh_data(self.current_page)
+      self.max_page = self.controller.get_max_page_num
+    rescue => error
+      show_exception_dialog(error)
+    end
   end
 
   def setup_page_buttons
@@ -162,6 +164,10 @@ class StudentListView < FXHorizontalFrame
         text_field.enabled = false
       end
     end
+  end
+
+  def show_exception_dialog(exception)
+    FXMessageBox.error(self, MBOX_OK, "Ошибка #{exception.class}", exception.message)
   end
 
 end

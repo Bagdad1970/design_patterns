@@ -1,13 +1,16 @@
 require_relative 'istudent_list.rb'
 
-
 class Student_List < IStudent_List
 
   attr_accessor :client, :current_page, :max_page
   private :client
 
   def initialize(client)
-    self.client = client
+    begin
+      self.client = client
+    rescue
+      raise
+    end
   end
 
   def get_student_by_id(required_id)

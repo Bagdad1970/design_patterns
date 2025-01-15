@@ -12,23 +12,25 @@ class Client_DB
     (1..10).each do |attempt|
       begin
         self.client = Mysql2::Client.new(host: host, username: username, password: password, database: database)
-        puts "Успешное подключения на попытке #{attempt}"
         break
       rescue => error
-        puts "Ошибка подключения на попытке #{attempt}: Ошибка: #{error}"
         sleep(1) 
       end
     end
 
-    raise Mysql2::Error::ConnectionError.new("Не удалось подключиться к базе данных") if self.client.nil?
+    raise DataBaseConnectionError.new if self.client.nil?
   end
 
   private_class_method :new
 
   private :client=
 
-  def Client_DB.get_instance(host: , username: , password:, database: )
-    @instance_db ||= self.new(host: host, username: username, password: password, database: database)
+  def Client_DB.get_instance(host: , username: , password:, database:)
+    begin
+      @instance_db ||= self.new(host: host, username: username, password: password, database: database)
+    rescue
+      raise
+    end
   end
 
   def select_student_by_id(required_id)
@@ -36,9 +38,12 @@ class Client_DB
   end
 
   def select_k_n_nonfiltered_students(page:, amount_rows: 20)
-    student_array = self.client.query("SELECT * FROM STUDENTS LIMIT #{amount_rows} OFFSET #{(page - 1) * amount_rows};", :symbolize_keys => true).to_a
-
-    return student_array
+    begin
+      student_array = self.client.query("SELECT * FROM STUDENTS LIMIT #{amount_rows} OFFSET #{(page - 1) * amount_rows};", :symbolize_keys => true).to_a
+      return student_array
+    rescue
+      raise
+    end
   end
 
   def get_filter_condition(filter)
@@ -59,21 +64,29 @@ class Client_DB
   end
 
   def select_k_n_filtered_students(filter:, page:, amount_rows: 20)
-    student_array = self.client.query("SELECT * FROM STUDENTS WHERE #{get_filter_condition(filter)} LIMIT #{amount_rows} OFFSET 0;", :symbolize_keys => true).to_a
-    return student_array
+    begin
+      student_array = self.client.query("SELECT * FROM STUDENTS WHERE #{get_filter_condition(filter)} LIMIT #{amount_rows} OFFSET 0;", :symbolize_keys => true).to_a
+      return student_array
+    rescue
+      raise
+    end
   end
 
   def select_k_n_students(page:, amount_rows: 20, filter: nil)
-    if page <= 0
-      raise ArgumentError.new('Недопустимый номер страницы')
-    elsif amount_rows < 0
-      raise ArgumentError.new('Недопустимое количество записей')
-    end
+    begin
+      if page <= 0
+        raise ArgumentError.new('Недопустимый номер страницы')
+      elsif amount_rows < 0
+        raise ArgumentError.new('Недопустимое количество записей')
+      end
 
-    if filter.nil?
-      return select_k_n_nonfiltered_students(page: page, amount_rows: amount_rows)
-    else
-      return select_k_n_filtered_students(filter: filter, page: page, amount_rows: amount_rows)
+      if filter.nil?
+        return select_k_n_nonfiltered_students(page: page, amount_rows: amount_rows)
+      else
+        return select_k_n_filtered_students(filter: filter, page: page, amount_rows: amount_rows)
+      end
+    rescue
+      raise 
     end
   end
 
@@ -114,7 +127,6 @@ class Client_DB
 
   def close
     self.client.close
-    puts "Соединения с базой данных закрыто"
   end
 
 end

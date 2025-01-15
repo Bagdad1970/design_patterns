@@ -1,3 +1,5 @@
+require_relative 'exceptions.rb'
+
 class StudentListController
 
   attr_accessor :view, :student_list, :current_data_list
@@ -14,11 +16,20 @@ class StudentListController
   end
 
   def refresh_data(page)
-    amount_rows = self.view.table.numRows.zero? ? 20 : self.view.table.numRows
-    self.current_data_list = self.student_list.get_k_n_student_short_list(page: page, amount_rows: amount_rows)
-    p self.current_data_list.size
-    self.current_data_list.set_view(self.view)
-    self.current_data_list.notify
+    begin
+      amount_rows = self.view.table.numRows.zero? ? 20 : self.view.table.numRows
+      self.current_data_list = self.student_list.get_k_n_student_short_list(page: page, amount_rows: amount_rows)
+      self.current_data_list.set_view(self.view)
+      self.current_data_list.notify
+    rescue Mysql2::Error::ConnectionError
+      raise DataBaseDisconnectedError.new
+    rescue Mysql2::Error
+      raise DataBaseClientNotConnectedError.new
+    end
+  end
+
+  def show_exception(exception)
+    self.view.show_exception_dialog(exception)
   end
 
 end

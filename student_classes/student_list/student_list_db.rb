@@ -7,7 +7,11 @@ class Student_List_DB < IStudent_List
   attr_accessor :client_db
 
   def initialize(host: , username:, password: , database:)
-    self.client_db = Client_DB.get_instance(host: host, username: username, password: password, database: database)
+    begin
+      self.client_db = Client_DB.get_instance(host: host, username: username, password: password, database: database)
+    rescue
+      raise
+    end
   end
 
   private :client_db
@@ -17,10 +21,13 @@ class Student_List_DB < IStudent_List
   end
 
   def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
-    student_array = self.client_db.select_k_n_students(page: page, amount_rows: amount_rows, filter: filter)
-    student_short_array = student_array.each_with_object([]) {|student, array| array.append(Student_Short.create_from_hash(student))}
-
-    return Data_List_Student_Short.new(student_short_array)
+    begin
+      student_array = self.client_db.select_k_n_students(page: page, amount_rows: amount_rows, filter: filter)
+      student_short_array = student_array.each_with_object([]) {|student, array| array.append(Student_Short.create_from_hash(student))}
+      return Data_List_Student_Short.new(student_short_array)
+    rescue
+      raise
+    end
   end
 
   def add_student(student)
