@@ -42,7 +42,7 @@ class Data_List_Student_Short < Data_List
     column_names = self.get_names.reduce([]) {|array, symbol_name| array << symbol_name.to_s}
     column_names.unshift('id')
     column_names.map! {|name| name.gsub('@', '').capitalize}
-    self.view.set_table_params(column_names, 20)
+    self.view.set_table_params(column_names, self.size)
 
     data_table = self.get_data_table
     self.view.set_table_data(data_table)

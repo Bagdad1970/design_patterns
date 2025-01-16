@@ -1,5 +1,3 @@
-require_relative 'exceptions.rb'
-
 class StudentListController
 
   attr_accessor :view, :student_list, :current_data_list
@@ -12,14 +10,13 @@ class StudentListController
   end
 
   def get_max_page_num
-    return (self.student_list.get_student_count.to_f / self.view.table.numRows).ceil
+    return (self.student_list.get_student_count.to_f / (self.view.table.numRows.zero? ? 20 : self.view.table.numRows)).ceil
   end
 
   def refresh_data(page)
     begin
       amount_rows = self.view.table.numRows.zero? ? 20 : self.view.table.numRows
       self.student_list.get_k_n_student_short_list(page: page, amount_rows: amount_rows, data_list: self.current_data_list)
-      p self.current_data_list
       self.current_data_list.set_view(self.view)
       self.current_data_list.notify
     rescue Mysql2::Error::ConnectionError

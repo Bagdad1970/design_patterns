@@ -83,7 +83,6 @@ class StudentListView < FXHorizontalFrame
   def refresh_data
     begin
       self.controller.refresh_data(self.current_page)
-      self.max_page = self.controller.get_max_page_num
     rescue => error
       show_exception_dialog(error)
     end
@@ -93,28 +92,29 @@ class StudentListView < FXHorizontalFrame
     paging_frame = FXHorizontalFrame.new(@table_area, opts: LAYOUT_FILL_X | LAYOUT_LEFT)
 
     @prev_button = FXButton.new(paging_frame, "Предыдущая", opts: FRAME_RAISED)
-    @page_info_label = FXLabel.new(paging_frame, "#{self.current_page} / #{self.max_page}", opts: LAYOUT_CENTER_X | LAYOUT_CENTER_Y)
+    @page_info_label = FXLabel.new(paging_frame, "Страница", opts: LAYOUT_CENTER_X | LAYOUT_CENTER_Y)
     @next_button = FXButton.new(paging_frame, "Следующая", opts: FRAME_RAISED)
 
     @prev_button.connect(SEL_COMMAND) do
       if self.current_page > 1
         self.current_page -= 1
-        refresh_data
         update_page_num
+        refresh_data
       end
     end
 
     @next_button.connect(SEL_COMMAND) do
       if self.current_page < self.max_page
         self.current_page += 1
-        refresh_data
         update_page_num
+        refresh_data
       end
     end
   end
 
   def update_page_num
-    @page_info_label.text = "Страница #{self.current_page} / #{self.max_page}"
+    self.max_page = self.controller.get_max_page_num
+    @page_info_label.text = "#{self.current_page} / #{self.max_page}"
   end
 
   def setup_handle_area
