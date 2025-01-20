@@ -3,15 +3,12 @@ include Fox
 
 class StudentListView < FXHorizontalFrame
 
-  attr_accessor :selected_row, :data, :table, :selected_rows, :controller, :max_page, :current_page
-  
-  private :controller=
+  attr_accessor :table, :selected_rows, :controller
+  private :controller=, :selected_rows=, :selected_rows
 
   def initialize(parent, width:, height:, opts:)
     super(parent, width: width, height: height, opts: opts)
     self.controller = nil
-    self.current_page = 1
-    self.max_page = 1
 
     setup_filter_area
     setup_table_area
@@ -42,6 +39,7 @@ class StudentListView < FXHorizontalFrame
     column_headers = [{name: "№", width: 30}, {name: "Фамилия и инициалы", width: 200}, {name: "Гит", width: 250}, {name: "Контакты", width: 250}]
 
     self.table.setTableSize(entities_count, column_names.size)
+    self.controller.set_amount_rows_on_page(entities_count)
     column_names.each_with_index do |name, index|
       self.table.setColumnText(index, name)
     end
@@ -82,7 +80,7 @@ class StudentListView < FXHorizontalFrame
 
   def refresh_data
     begin
-      self.controller.refresh_data(self.current_page)
+      self.controller.refresh_data
     rescue => error
       show_exception_dialog(error)
     end
@@ -96,25 +94,30 @@ class StudentListView < FXHorizontalFrame
     @next_button = FXButton.new(paging_frame, "Следующая", opts: FRAME_RAISED)
 
     @prev_button.connect(SEL_COMMAND) do
-      if self.current_page > 1
-        self.current_page -= 1
-        update_page_num
-        refresh_data
+      if !(self.controller.nil?)
+        if self.controller.get_current_page > 1
+          self.controller.decrease_page_num 
+          update_page_num
+          refresh_data
+        end
       end
     end
 
     @next_button.connect(SEL_COMMAND) do
-      if self.current_page < self.max_page
-        self.current_page += 1
-        update_page_num
-        refresh_data
+      if !(self.controller.nil?)
+        if self.controller.get_current_page < self.controller.get_max_page
+          self.controller.increase_page_num
+          update_page_num
+          refresh_data
+        end
       end
     end
   end
 
   def update_page_num
-    self.max_page = self.controller.get_max_page_num
-    @page_info_label.text = "#{self.current_page} / #{self.max_page}"
+    if self.controller.nil? == false
+      @page_info_label.text = "#{self.controller.get_current_page} / #{self.controller.get_max_page}"
+    end
   end
 
   def setup_handle_area

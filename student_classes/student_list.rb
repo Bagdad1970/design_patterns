@@ -2,7 +2,7 @@ require_relative 'istudent_list.rb'
 
 class Student_List < IStudent_List
 
-  attr_accessor :client, :current_page, :max_page
+  attr_accessor :client
   private :client
 
   def initialize(client)
@@ -17,7 +17,7 @@ class Student_List < IStudent_List
     self.client.get_student_by_id(required_id)
   end
 
-  def get_k_n_student_short_list(page:, amount_rows:, data_list: nil, filter: nil)
+  def get_k_n_student_short_list(page:, amount_rows: 20, data_list: nil, filter: nil)
     self.client.get_k_n_student_short_list(page: page, amount_rows: amount_rows, data_list: data_list, filter: filter)
   end
 

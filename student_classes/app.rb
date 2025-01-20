@@ -40,6 +40,7 @@ class MainWindow < FXMainWindow
       student_list = Student_List.new(student_list_db)
       student_list_controller = StudentListController.new(student_list, @student_list_view)
       @student_list_view.set_controller(student_list_controller)
+
       @student_list_view.update_page_num
       @student_list_view.refresh_data
     rescue DataBaseConnectionError => error
