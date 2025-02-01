@@ -41,7 +41,6 @@ class Subscriber < ISubscriber
 end
 
 def main
-  
   sub1 = Subscriber.new(123)
   sub2 = Subscriber.new(48)
   sub3 = Subscriber.new(9)
@@ -54,7 +53,6 @@ def main
   rocket_man.unsubscribe(sub1)
   rocket_man.subscribe(sub3)
   rocket_man.notify_all
-
 end
 
 main
